@@ -1,6 +1,6 @@
 #include <windows.h>
 
-int main() {
+void tunnel_run() {
     HDC hdc = GetDC(NULL);
 
     int w = GetSystemMetrics(SM_CXSCREEN);

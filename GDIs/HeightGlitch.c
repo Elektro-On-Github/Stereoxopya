@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-int main() {
+void heightglitch_run() {
     HDC hdc;
 
     int w = GetSystemMetrics(0);

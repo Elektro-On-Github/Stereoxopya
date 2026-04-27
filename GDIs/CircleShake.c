@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <math.h>
 
-int main() {
+void circleshake_run() {
     // full screen si mangia
     HDC hdc = GetDC(NULL);
 
