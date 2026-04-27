@@ -1,3 +1,5 @@
+// BitBlt(hdcDest, xDest, yDest, width, height, hdcSrc, xSrc, ySrc, rasterOp);
+
 #include <windows.h>
 
 int main() {
@@ -9,7 +11,7 @@ int main() {
 
     while (1) {
         hdc = GetDC(0);
-        x = rand() % w;
+        x = rand() % w; // random lungo w
         BitBlt(hdc, x, 1, 10, h, hdc, x, 0, NOTSRCCOPY);
         Sleep(10);
         ReleaseDC(0, hdc);
