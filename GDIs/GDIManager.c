@@ -2,8 +2,8 @@
 #include <math.h>
 
 //globalz
-int w;
-int h;
+int w; // width
+int h; // heigh
 
 void heightglitch_run() {
     HDC hdc = GetDC(NULL);
@@ -15,11 +15,21 @@ void heightglitch_run() {
     Sleep(10);
 }
 
+void widthglitch_run() {
+    HDC hdc = GetDC(NULL);
+    int x = 0;
+
+    x = rand() % 2; // random lungo h
+    BitBlt(hdc, 10, x, w, h, hdc, 0, x, NOTSRCCOPY);
+    ReleaseDC(NULL, hdc);
+    Sleep(100);
+}
+
 void tunnel_run() {
     HDC hdc = GetDC(NULL);
 
-    int newW = w - (5 * w / 100);
-    int newH = h - (5 * h / 100);
+    int newW = w - (1 * w / 100);
+    int newH = h - (1 * h / 100);
 
     // trova il centro
     int x = (w - newW) / 2;
@@ -34,8 +44,8 @@ void circleshake_run() {
     HDC hdc = GetDC(NULL);
     static float angle = 0.0f;
 
-    int dx = (int)(sin(angle) * 10);
-    int dy = (int)(cos(angle) * 10);
+    int dx = (int)(sin(angle) * 100);
+    int dy = (int)(cos(angle) * 100);
 
     BitBlt(hdc, dx, dy, w, h, hdc, 0, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
@@ -49,6 +59,7 @@ int main() {
 
     while(1) {
         heightglitch_run();
+        widthglitch_run();
         tunnel_run();
         circleshake_run();
     }
