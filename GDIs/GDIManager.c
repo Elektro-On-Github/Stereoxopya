@@ -1,8 +1,8 @@
 #include <windows.h>
 #include <math.h>
-#include <curl/curl.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
 
 //globalz
 int w; // width
@@ -72,17 +72,19 @@ int main() {
     char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
     FILE *pointertotextstream = popen("curl http://127.0.0.1:5633/xyz", "r"); // apre curl in modalita' sola lettura. 
 
-    if (pointertotextstream == NULL) return 1;
+    if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
     
-    if (fgets(reqtextbuffer, sizeof(reqtextbuffer), pointertotextstream) == NULL) {
+    if (fgets(reqtextbuffer, sizeof(reqtextbuffer), pointertotextstream) == NULL) { // meaning: fgets(buffer, size, stream), mette l'out di curl dentro il buffer
         pclose(pointertotextstream);
         return 1;
-    } // meaning: fgets(buffer, size, stream), mette l'out di curl dentro il buffer
+    } 
 
     pclose(pointertotextstream); // chiude il processo creato da popen (curl)
     printf("reqtextbuffer[]: %s\n", reqtextbuffer);
 
-    if (strstr(reqtextbuffer, "searchyword")) {
-        //trigger on
+    if (strstr(reqtextbuffer, "startfxnow")) {
+        startfx();
     }
+
+    return 0;
 }
