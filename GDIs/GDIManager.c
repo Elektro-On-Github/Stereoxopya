@@ -1,5 +1,7 @@
 #include <windows.h>
 #include <math.h>
+#include <curl/curl.h>
+#include <unistd.h>
 
 //globalz
 int w; // width
@@ -53,7 +55,7 @@ void circleshake_run() {
     angle = angle + 0.1f;
 }
 
-int main() {
+void startfx() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
@@ -63,4 +65,15 @@ int main() {
         tunnel_run();
         circleshake_run();
     }
+}
+
+int main() {
+    CURL *kurl = curl_easy_init();
+
+    if (kurl) {
+        curl_easy_setopt(kurl, CURLOPT_URL, "http://127.0.0.1:5633/xyz" );
+        curl_easy_perform(kurl);
+        curl_easy_cleanup(kurl);
+        sleep(1);
+    } // fare output di curl
 }
