@@ -1,37 +1,31 @@
 #include <windows.h>
+int w;
+int h;
+
+void image() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
+    HDC hdc = GetDC(NULL); // piglia il dc dello schermo
+    HDC memdc = CreateCompatibleDC(hdc); // crea un DC compatibile in ram
+
+    //karika il bmp
+    HBITMAP bmp = (HBITMAP)LoadImageA(NULL, "img1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+
+    // usa bitmap nel memdc
+    SelectObject(memdc, bmp);
+
+    BitBlt(hdc, 100, 100, 256, 256, memdc, 0, 0, SRCCOPY);
+
+
+    //togli merda
+    DeleteObject(bmp);
+    DeleteDC(memdc);
+    ReleaseDC(NULL, hdc);
+}
 
 int main() {
-    int w = GetSystemMetrics(SM_CXSCREEN);
-    int h = GetSystemMetrics(SM_CYSCREEN);
-
-    HDC hdc = GetDC(NULL);
-
-    int x = 3;
-    int y = 3;
-
-    int vx = 21;
-    int vy = 21;
-
     while (1) {
-
-        HBRUSH white = CreateSolidBrush(RGB(255, 255, 255));
-        SelectObject(hdc, white);
-
-        Rectangle(hdc, x, y, x + 100, y + 100);
-
-        // collisione destra/sinistra
-        if (x + 100 >= w || x <= 0) {
-            vx = -vx;
-        }
-
-        // collisione alto/basso
-        if (y + 100 >= h || y <= 0) {
-            vy = -vy;
-        }
-
-        x += vx;
-        y += vy;
+        image();
     }
-
-    return 0;
 }

