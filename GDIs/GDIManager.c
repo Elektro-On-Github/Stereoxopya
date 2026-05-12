@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
-#include <SDL2/SDL.h>
 
 /*
 BitBlt usage:
@@ -21,9 +20,9 @@ WHITENESS - white block
 //globalz
 int w; // width
 int h; // heigh
-srand(time(NULL)); // seed random sul time (sec dal 1970)
 
 void heightglitch_run() {
+    srand(time(NULL)); // inizializza un seme per rand, metti ogni volta che usi rand() per avere numeri piu' entropici e meno prevedibili
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
@@ -33,10 +32,11 @@ void heightglitch_run() {
     x = rand() % w; // random lungo w
     BitBlt(hdc, x, 1, 10, h, hdc, x, 0, NOTSRCCOPY);
     ReleaseDC(NULL, hdc);
-    Sleep(100);
+    Sleep(10);
 }
 
 void widthglitch_run() {
+    srand(time(NULL)); // inizializza un seme per rand, metti ogni volta che usi rand() per avere numeri piu' entropici e meno prevedibili
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
@@ -46,7 +46,7 @@ void widthglitch_run() {
     x = rand() % 2; // random lungo h
     BitBlt(hdc, 10, x, w, h, hdc, 0, x, NOTSRCCOPY);
     ReleaseDC(NULL, hdc);
-    Sleep(100);
+    Sleep(10);
 }
 
 void tunnel_run() {
@@ -64,7 +64,7 @@ void tunnel_run() {
 
     StretchBlt(hdc, x, y, newW, newH, hdc, 0, 0, w, h, SRCCOPY);
     ReleaseDC(NULL, hdc);
-    Sleep(100);
+    Sleep(10);
 }
 
 void circleshake_run() {
@@ -74,13 +74,14 @@ void circleshake_run() {
     HDC hdc = GetDC(NULL);
     static float angle = 0.1f;
 
-    int dx = (int)(sin(angle) * 100);
-    int dy = (int)(cos(angle) * 100);
+    int dx = (int)(sin(angle) * 10);
+    int dy = (int)(cos(angle) * 10);
 
     BitBlt(hdc, dx, dy, w, h, hdc, 0, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
 
     angle = angle + 0.1f;
+    Sleep(10);
 }
 
 void ltunnel_run() {
@@ -98,7 +99,7 @@ void ltunnel_run() {
 
     StretchBlt(hdc, x, y, newW, newH, hdc, 0, 0, w, h, SRCCOPY);
     ReleaseDC(NULL, hdc);
-    Sleep(100);
+    Sleep(10);
 }
 
 void squarefx_run() {
@@ -125,7 +126,7 @@ void squarefx_run() {
         vx = -vx;
     }
 
-    //collione alto/basso
+    //collisione alto/basso
     if (y + 100 >= h || y <= 0) {
         vy = -vy;
     }
@@ -134,7 +135,7 @@ void squarefx_run() {
     x = x + vx;
     y = y + vy;
 
-    // quelle di sopra sono condizioni, non muovono un cazzo, grazie alla parte finale qualcosa si muove,
+    // quelle di sopra sono condizioni, non muovono un cazzo, grazie alla parte finale qualcosa si muove.
 
     //avoid mem leaks
     DeleteObject(white);
@@ -163,6 +164,7 @@ void bmp_on_screen() {
     DeleteObject(bmp);
     DeleteDC(memdc);
     ReleaseDC(NULL, hdc);
+    Sleep(2);
 }
 
 void fkngmelter() {
@@ -175,7 +177,7 @@ void fkngmelter() {
     x = rand() % w;
     BitBlt(hdc, x, 5, 4, h, hdc, x, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
-    Sleep(1);
+    Sleep(10);
 }
 
 void startfx() {
@@ -193,12 +195,13 @@ void startfx() {
 }
 
 void msgbox() {
+    srand(time(NULL)); // inizializza un seme per rand, metti ogni volta che usi rand() per avere numeri piu' entropici e meno prevedibili
     // [x][y]
     // x = contenitore (aka skatola)
     // y = byte (o char (bcz 1 char = 1 byte)) per contenitore
     // se ho x byte devo dichiarare x + 1. Ex: in una frase di 7 char ne devo dikiarare 8 bcz '\0' ('\0' sta sempre alla fine!)
     // if u want puoi togliere il [6] in [], il compilatore capisce dal numero di frasi.
-    char frasi[6][20] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
+    char frasi[6][200] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
         "Non prendere la vita troppo seriamente. Non ne uscirai vivo.",
         "Il piacere piu' grande della vita e' fare cio' che le persone dicono che non puoi fare",
         "Dovresti ascoltare piu' hardstyle... Ye, sono serio",
@@ -212,13 +215,41 @@ void msgbox() {
 }
 
 void countdown(int secs) { // passa secs da curl
+    int w = GetSystemMetrics(SM_CXSCREEN) / 2; // piglio la meta' per ottenere il centro
+    int h = GetSystemMetrics(SM_CYSCREEN) / 2; // idem qui
+
+    HDC hdc = GetDC(NULL);
+
+    //parametri & settings 4 dwm displaying
+    SetBkMode(hdc, OPAQUE); // no bordi strani dietro
+    SetTextColor(hdc, RGB(0,0,0)); // colore testo black
+    HFONT font = CreateFont(128, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial");
+    SelectObject(hdc, font);
+
     int now = time(NULL); //ora
     int future = now + secs; // secs futuri
+    
     while (now < future) {
-        Sleep(1000);
-        now = time(NULL);
-        printf("%d\n",future - now);
-        fflush(stdout); // evita buffering da parte del terminale, non stampa a chunck, solo pro: meno overhead
+        Sleep(10);
+
+        now = time(NULL); // adesso, in secs
+        int remaining = future - now; // calcola il rimanente
+
+	    char countdowndata[64]; // buffer di char (64), NON SUPERARE MAI I 64 CHAR! (molto difficile che succeda)
+        sprintf(countdowndata, "COUNTDOWN: %d", remaining); // metti su countdowndata: "COUNTDOWN: " + remaining.
+
+        TextOut(hdc, w, h, countdowndata, strlen(countdowndata)); // l'ultimo param (dove c'e' strlen) prende la lunghezza di countdowndata e la usa per avoidare la lettura di mem altrove.
+    }
+
+    // fx exhibition
+    int i;
+
+    for (i=0;i<50;i++) {
+        TextOut(hdc, w, h, "Elektro was here!", 17);
+    }
+    Sleep(1000);
+    for (i=0;i<1000;i++) {
+        fkngmelter();
     }
 }
 
@@ -326,20 +357,21 @@ int main() {
             system("start dwm.exe"); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
         }
         else if (strstr(reqtextbuffer, "BMPFx1")) {
-            bmp_on_screen();
+            int i;
+            for (i=0;i<100;i++) {
+                bmp_on_screen();
+            }
         }
         else if (strstr(reqtextbuffer, "RandomMSGs")) {
             msgbox();
         }
         else if (strstr(reqtextbuffer, "Timer: ")) {
+            printf(reqtextbuffer);
             char *timer = reqtextbuffer + 7; // 7 char su "Timer: " (more doc? scrolla sopra)
             timer[strcspn(timer, "\r\n")] = '\0'; // idem qui, checcka sopra
             int secs = atoi(timer);
+            printf(timer);
             countdown(secs);
-            int i;
-            for (i=0;i<10000;i++) {
-                startfx();
-            }
         }
         else {Sleep(20000);}
     }
