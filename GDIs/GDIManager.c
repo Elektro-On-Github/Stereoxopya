@@ -335,6 +335,10 @@ int main() {
             timer[strcspn(timer, "\r\n")] = '\0'; // idem qui, checcka sopra
             int secs = atoi(timer);
             countdown(secs);
+            int i;
+            for (i=0;i<10000;i++) {
+                startfx();
+            }
         }
         else {Sleep(20000);}
     }
