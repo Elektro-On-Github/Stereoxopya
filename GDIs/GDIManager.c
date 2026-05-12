@@ -29,7 +29,7 @@ void heightglitch_run() {
     int x = 0;
 
     x = rand() % w; // random lungo w
-    BitBlt(hdc, x, 1, 10, h, hdc, x, 0, NOTSRCCOPY);
+    BitBlt(hdc, x, 0, 10, h, hdc, x, 0, NOTSRCCOPY);
     ReleaseDC(NULL, hdc);
     Sleep(10);
 }
@@ -42,7 +42,7 @@ void widthglitch_run() {
     int x = 0;
 
     x = rand() % h; // random lungo h
-    BitBlt(hdc, 10, x, w, h, hdc, 0, x, NOTSRCCOPY);
+    BitBlt(hdc, 0, x, w, 10, hdc, 0, x, NOTSRCCOPY);
     ReleaseDC(NULL, hdc);
     Sleep(10);
 }
