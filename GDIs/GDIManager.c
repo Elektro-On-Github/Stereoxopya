@@ -22,7 +22,6 @@ int w; // width
 int h; // heigh
 
 void heightglitch_run() {
-    srand(time(NULL)); // inizializza un seme per rand, metti ogni volta che usi rand() per avere numeri piu' entropici e meno prevedibili
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
@@ -36,14 +35,13 @@ void heightglitch_run() {
 }
 
 void widthglitch_run() {
-    srand(time(NULL)); // inizializza un seme per rand, metti ogni volta che usi rand() per avere numeri piu' entropici e meno prevedibili
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
     HDC hdc = GetDC(NULL);
     int x = 0;
 
-    x = rand() % 2; // random lungo h
+    x = rand() % h; // random lungo h
     BitBlt(hdc, 10, x, w, h, hdc, 0, x, NOTSRCCOPY);
     ReleaseDC(NULL, hdc);
     Sleep(10);
@@ -211,7 +209,7 @@ void msgbox() {
     };
 
     int randomtext = rand() % 6; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
-    MessageBox(NULL, frasi[randomtext], "testo", MB_OK | MB_ICONINFORMATION);
+    MessageBox(NULL, frasi[randomtext], "MessageBox", MB_OK | MB_ICONINFORMATION);
 }
 
 void countdown(int secs) { // passa secs da curl
@@ -243,14 +241,14 @@ void countdown(int secs) { // passa secs da curl
 
     // fx exhibition
     int i;
-
-    for (i=0;i<50;i++) {
-        TextOut(hdc, w, h, "Elektro was here!", 17);
-    }
-    Sleep(1000);
-    for (i=0;i<1000;i++) {
-        fkngmelter();
-    }
+    for (i=0;i<50;i++) {TextOut(hdc, w, h, "Elektro was here!", 17);}
+    for (i=0;i<1500;i++) {fkngmelter();}
+    for (i=0;i<50;i++) {TextOut(hdc, w, h, "lesgo", 5);}
+    for (i=0;i<500;i++) {heightglitch_run();}
+    for (i=0;i<500;i++) {widthglitch_run();}
+    for (i=0;i<100;i++) {tunnel_run();ltunnel_run();}
+    for (i=0;i<100;i++) {squarefx_run();}
+    for (i=0;i<100;i++) {circleshake_run();}
 }
 
 int main() {
