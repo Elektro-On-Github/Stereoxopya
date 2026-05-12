@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <SDL2/SDL.h>
 
 /*
 BitBlt usage:
