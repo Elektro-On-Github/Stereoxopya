@@ -161,7 +161,10 @@ void bmp_on_screen() {
     // usa bitmap nel memdc
     SelectObject(memdc, bmp);
 
-    BitBlt(hdc, 100, 100, 256, 256, memdc, 0, 0, SRCCOPY);
+    int randx = rand() % w;
+    int randy = rand() % h;
+
+    BitBlt(hdc, randx, randy, 776, 788, memdc, 0, 0, SRCCOPY);
 
     //togli merda (aka burn garbage; aka free mem; akak liberation; aka: restituisci risorsa grafica. MUà! )
     DeleteObject(bmp);
