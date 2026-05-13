@@ -156,7 +156,7 @@ void bmp_on_screen() {
     HDC memdc = CreateCompatibleDC(hdc); // crea un DC compatibile in ram
 
     //karika il bmp (assicurati che sia real bmp. Esporta da paint per sicurezza)
-    HBITMAP bmp = (HBITMAP)LoadImageA(NULL, "img1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+    HBITMAP bmp = (HBITMAP)LoadImageA(NULL, "lulu.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
     // usa bitmap nel memdc
     SelectObject(memdc, bmp);
