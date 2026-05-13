@@ -72,8 +72,8 @@ void circleshake_run() {
     HDC hdc = GetDC(NULL);
     static float angle = 0.1f;
 
-    int dx = (int)(sin(angle) * 10);
-    int dy = (int)(cos(angle) * 10);
+    int dx = (int)(sin(angle) * 5);
+    int dy = (int)(cos(angle) * 5);
 
     BitBlt(hdc, dx, dy, w, h, hdc, 0, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
@@ -138,6 +138,7 @@ void squarefx_run() {
     //avoid mem leaks
     DeleteObject(white);
     ReleaseDC(NULL, hdc);
+    Sleep(5);
 }
 
 // ho capito che hdc significa HandleDeviceContext, tradotto: accesso grafico allo schermo
@@ -245,10 +246,13 @@ void countdown(int secs) { // passa secs da curl
     for (i=0;i<1500;i++) {fkngmelter();}
     for (i=0;i<50;i++) {TextOut(hdc, w, h, "lesgo", 5);}
     for (i=0;i<500;i++) {heightglitch_run();}
+    for (i=0;i<50;i++) {TextOut(hdc, w, h, "Subwoofer", 5);}
     for (i=0;i<500;i++) {widthglitch_run();}
     for (i=0;i<100;i++) {tunnel_run();ltunnel_run();}
     for (i=0;i<100;i++) {squarefx_run();}
     for (i=0;i<100;i++) {circleshake_run();}
+    for (i=0;i<4;i++) {tunnel_run();ltunnel_run();}
+    for (i=0;i<12;i++) {fkngmelter();heightglitch_run();}
 }
 
 int main() {
