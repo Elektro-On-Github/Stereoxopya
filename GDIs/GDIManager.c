@@ -295,6 +295,8 @@ int main() {
         Misc:
         "cmd: " - xec a command
         "CleanDWM" - cleana DWM
+        "RandomMSGs" - msgbox()
+        "Timer: x" - start countdown stuff
         */
 
         if (strstr(reqtextbuffer, "1")) {
