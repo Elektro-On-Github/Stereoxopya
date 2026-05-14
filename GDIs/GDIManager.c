@@ -270,7 +270,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();}
         else if (GetTickCount64() - elapsed < 29000) {ltunnel_run();}
-        else if (GetTickCount64() - elapsed < 33000) {ltunnel_run();}
+        else if (GetTickCount64() - elapsed < 33000) {tunnel_run();}
         else if (GetTickCount64() - elapsed < 43000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 63000) {squarefx_run();}
         else if (GetTickCount64() - elapsed < 65000) {circleshake_run();}
