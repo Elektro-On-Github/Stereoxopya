@@ -1,11 +1,15 @@
 // compile 4 windows: cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
 // devi compilare dalla shell di sviluppo x64 di vscommunity
+
+// Inizio flag per Windows
 #ifdef _WIN32
     #define popen _popen // MSVC non riconosce popen, ma _popen, quindi definisce popen as _popen, idem con pclose
     #define pclose _pclose
 #endif
 #define _WIN32_WINNT 0x0600
 #define WINVER 0x0600
+// Fine falg per Windows
+
 #include <windows.h>
 #include <math.h>
 #include <string.h>
