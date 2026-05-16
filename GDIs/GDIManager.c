@@ -84,8 +84,8 @@ void circleshake_run() {
     HDC hdc = GetDC(NULL);
     static float angle = 0.1f;
 
-    int dx = (int)(sin(angle) * 5);
-    int dy = (int)(cos(angle) * 5);
+    int dx = (int)(sin(angle) * 2);
+    int dy = (int)(cos(angle) * 2);
 
     BitBlt(hdc, dx, dy, w, h, hdc, 0, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
@@ -209,7 +209,7 @@ void lulu() {
     int randx = rand() % w;
     int randy = rand() % h;
 
-    BitBlt(hdc, randx, randy, 776, 788, memdc, 0, 0, SRCCOPY);
+    BitBlt(hdc, randx, randy, 776, 788, memdc, 0, 0, SRCCOPY); // 776, 778 = px imagine bmp
 
     //togli merda (aka burn garbage; aka free mem; akak liberation; aka: restituisci risorsa grafica. MUà! )
     DeleteObject(bmp);
@@ -302,16 +302,15 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
     while (1) {
         if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);}
-        else if (GetTickCount64() - elapsed < 11000) {fkngmelter();}
-        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
+        else if (GetTickCount64() - elapsed < 10000) {pixelate();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();}
-        else if (GetTickCount64() - elapsed < 14000) {TextOut(hdc, w, h, "Subwoofer", 9);}
-        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();pixelate();}
+        else if (GetTickCount64() - elapsed < 15000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();}
-        else if (GetTickCount64() - elapsed < 22000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 29000) {ltunnel_run();pixelate();}
-        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 23000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
+        else if (GetTickCount64() - elapsed < 30000) {pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {tunnel_run();}
         else if (GetTickCount64() - elapsed < 43000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 52000) {pixelate();}
