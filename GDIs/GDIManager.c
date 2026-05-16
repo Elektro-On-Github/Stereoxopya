@@ -129,14 +129,20 @@ void squarefx_run() {
     static int vx = 21;
     static int vy = 21;
 
+    int rx = 0;
+    int ry = 0;
+
+    rx = 1 + rand() % 500;
+    ry = 1 + rand() % 500;
+
     int red = rand() % 255;
     int green = rand() % 255;
     int blue = rand() % 255;
 
-    HBRUSH white = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed bianco
+    HBRUSH white = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed nero
     SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
 
-    Rectangle(hdc, x, y, x + 100, y + 100); // top, left, bottom, right
+    Rectangle(hdc, x, y, x + rx, y + ry); // top, left, bottom, right
 
     //collisione destra/sinistra
     if (x + 100 >= w || x <= 0) {
@@ -308,7 +314,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {tunnel_run();}
         else if (GetTickCount64() - elapsed < 43000) {fkngmelter();}
-        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 52000) {pixelate();}
         else if (GetTickCount64() - elapsed < 63000) {squarefx_run();}
         else if (GetTickCount64() - elapsed < 65000) {circleshake_run();pixelate();}
         else if (GetTickCount64() - elapsed < 69000) {tunnel_run();ltunnel_run();}
