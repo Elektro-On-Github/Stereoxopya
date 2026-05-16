@@ -324,6 +324,7 @@ void wrongchoose() {
     while(1) {
         if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();}
         else if (GetTickCount64() - elapsed < 80000) {fkngmelter();}
+        else (GetTickCount64() - elapsed < 90000) {continue;}
     }
 }
 
@@ -411,7 +412,7 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "Pixy") == 0) {
             int i;
-            for (i=0;i<1000;i++) {pixelate();}
+            for (i=0;i<150;i++) {pixelate();}
         }
 
         else if (strcmp(reqtextbuffer, "CHOOSE") == 0) {
