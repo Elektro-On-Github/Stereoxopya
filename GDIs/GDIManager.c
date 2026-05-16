@@ -171,7 +171,7 @@ void pixelate() {
 
     // un compatibleDC crea in ram una tela che non viene mostrata (serve per lavorare e non mostrare schifo nel monitor)
     HDC smally = CreateCompatibleDC(hdc);
-    HBITMAP smallybmp = CreateCompatibleBitmap(hdc, w/2, h/2); //  qui ci sta il hdc ma scalato di pixel
+    HBITMAP smallybmp = CreateCompatibleBitmap(hdc, w/2.1, h/2.1); //  qui ci sta il hdc ma scalato di pixel
 
     SelectObject(smally, smallybmp); // inserisce smallybmp dentro smally
 
@@ -342,7 +342,7 @@ int main() {
             Sleep(20000);
             continue; //quitta da questo if (quindi se continua ad essere NULL riparte e ritorna qui)
         } 
-
+        reqtextbuffer[strcspn(reqtextbuffer, "\r\n")] = '\0'; // serve per fare in modo che nel confronto delle opzioni si confronti il char identico e non il char + \r\n 
         pclose(pointertotextstream); // chiude il processo creato da popen (curl) (NEVER FORGET! Altrimenti fai un mem leak più grande di casa mia e più pesante del mio subwoofer con hp e sounbar integrata)
         printf("reqtextbuffer[]: %s\n", reqtextbuffer);
 
