@@ -217,7 +217,7 @@ void fkngmelter() {
     h = GetSystemMetrics(SM_CYSCREEN);
 
     HDC hdc = GetDC(NULL);
-    static int x = 0; // static, altrimenti reset brutale
+    static int x = 0; // static, altrimenti reset brutale a causa di rand che riparte dal seed 0
 
     x = rand() % w;
     BitBlt(hdc, x, 5, 4, h, hdc, x, 0, SRCCOPY);
@@ -303,7 +303,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 16000) {widthglitch_run();pixelate();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();}
-        else if (GetTickCount64() - elapsed < 12000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 22000) {pixelate();}
         else if (GetTickCount64() - elapsed < 29000) {ltunnel_run();pixelate();}
         else if (GetTickCount64() - elapsed < 12000) {pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {tunnel_run();}
@@ -324,7 +324,7 @@ void wrongchoose() {
     while(1) {
         if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();}
         else if (GetTickCount64() - elapsed < 80000) {fkngmelter();}
-        else (GetTickCount64() - elapsed < 90000) {continue;}
+        else {break;}
     }
 }
 
