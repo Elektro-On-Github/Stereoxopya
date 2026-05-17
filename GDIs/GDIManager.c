@@ -508,7 +508,7 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "11") == 0) {
             int i;
-            for (i=0;i<10000;i++) {
+            for (i=0;i<4000;i++) {
                 predictablemelter();
             }
         }
