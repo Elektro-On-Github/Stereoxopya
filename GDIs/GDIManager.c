@@ -166,7 +166,7 @@ void squarefx_run() {
     Sleep(5);
 }
 
-// avevo pensato qualcosa del tipo: progressivita' dell'aggravamento. Ogni tot si diminuisce la reso
+// avevo pensato qualcosa del tipo: progressivita' del degrado. Ogni tot si diminuisce la reso
 //Update: se divido per 2 l'effetto si interrompe alla prima degradata, se divido per un valore>2 il degrado e' progressivo
 // ATTENTO: non fare: "HDC small" small e' una cosa di windows preistorica. Quindi ho usato smally
 void pixelate() {
@@ -190,7 +190,7 @@ void pixelate() {
     DeleteDC(smally);
     ReleaseDC(NULL, hdc);
 
-    Sleep(200);
+    Sleep(10);
 }
 
 void lulu() {
@@ -228,7 +228,66 @@ void fkngmelter() {
     x = rand() % w;
     BitBlt(hdc, x, 5, 4, h, hdc, x, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
+    Sleep(2);
+}
+
+void predictablemelter() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+    HDC hdc = GetDC(NULL);
+
+    static int counter = 0;
+    counter = counter + 1;
+
+    if (counter >= w) {counter = 0;}
+
+    BitBlt(hdc, counter, 5, 5, h, hdc, counter, 0, SRCINVERT);
+    ReleaseDC(NULL, hdc);
+    Sleep(1);
+}
+
+void mtrfkngatombomb() {
+    HDC hdc = GetDC(NULL);
+
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+
+    BitBlt(hdc, rand()%20 -10, rand()% 20 - 10, w, h, hdc, 0, 0, SRCINVERT); // srcinvert fa: DEST XOR SOURCE
     Sleep(10);
+
+    // release shi
+    ReleaseDC(NULL, hdc);
+    Sleep(10);
+}
+
+void squaryshape() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+    HDC hdc = GetDC(NULL);
+
+    int rx = 0;
+    int ry = 0;
+
+    rx = 1 + rand() % 200;
+    ry = 1 + rand() % 200;
+
+    int x = rand() % w;
+    int y = rand() % h;
+
+    // kolorz
+    int red = rand() % 255;
+    int green = rand() % 255;
+    int blue = rand() % 255;
+
+    HBRUSH white = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed nero
+    SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
+
+    Rectangle(hdc, x, y, x + rx, y + ry); // top, left, bottom, right
+
+    //avoid mem leaks
+    DeleteObject(white);
+    ReleaseDC(NULL, hdc);
+    Sleep(1);
 }
 
 void startfx() {
@@ -243,6 +302,8 @@ void startfx() {
     ltunnel_run();
     squarefx_run();
     fkngmelter();
+    mtrfkngatombomb();
+    squaryshape();
 }
 
 void msgbox() {
@@ -251,7 +312,7 @@ void msgbox() {
     // x = contenitore (aka skatola)
     // y = byte (o char (bcz 1 char = 1 byte)) per contenitore
     // se ho x byte devo dichiarare x + 1. Ex: in una frase di 7 char ne devo dikiarare 8 bcz '\0' ('\0' sta sempre alla fine!)
-    // if u want puoi togliere il [6] in [], il compilatore capisce dal numero di frasi.
+    // if u want puoi togliere il [7] in [], il compilatore capisce dal numero di frasi.
     char frasi[7][200] = { // ricordiamo il seguente personaggio: Breiscot (aka DMAX, QLIMAX, EMACS) - Ha dato contributo nelle frasi di testing
         "Non prendere la vita troppo seriamente. Non ne uscirai vivo.",
         "Il piacere piu' grande della vita e' fare cio' che le persone dicono che non puoi fare",
@@ -301,23 +362,24 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     // fx exhibition
     ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
     while (1) {
-        if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);}
+        if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);} // 17 = num di char del text
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
-        else if (GetTickCount64() - elapsed < 10000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();}
+        else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshape();}
+        else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 15000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();}
-        else if (GetTickCount64() - elapsed < 21000) {lulu();}
+        else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();mtrfkngatombomb();}
+        else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshape();}
         else if (GetTickCount64() - elapsed < 23000) {pixelate();}
         else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
         else if (GetTickCount64() - elapsed < 30000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 33000) {tunnel_run();}
-        else if (GetTickCount64() - elapsed < 43000) {fkngmelter();}
+        else if (GetTickCount64() - elapsed < 33000) {tunnel_run();mtrfkngatombomb();}
+        else if (GetTickCount64() - elapsed < 43000) {mtrfkngatombomb();squaryshape();}
         else if (GetTickCount64() - elapsed < 52000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 63000) {squarefx_run();}
+        else if (GetTickCount64() - elapsed < 63000) {squarefx_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 65000) {circleshake_run();pixelate();}
         else if (GetTickCount64() - elapsed < 69000) {tunnel_run();ltunnel_run();}
         else if (GetTickCount64() - elapsed < 77000) {fkngmelter();heightglitch_run();}
+        else if (GetTickCount64() - elapsed < 88000) {mtrfkngatombomb();squaryshape();}
         else {break;}
     }
 }
@@ -327,8 +389,8 @@ void wrongchoose() {
     MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"Scegli", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
     MessageBox(NULL, "Mi dispiace, hai sbagliato", "LULU.EXE", MB_OK | MB_ICONERROR);
     while(1) {
-        if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();}
-        else if (GetTickCount64() - elapsed < 80000) {fkngmelter();}
+        if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();mtrfkngatombomb();}
+        else if (GetTickCount64() - elapsed < 80000) {fkngmelter();mtrfkngatombomb();}
         else {break;}
     }
 }
@@ -408,6 +470,25 @@ int main() {
         else if (strcmp(reqtextbuffer, "8") == 0) {
             int i;
             for (i=0;i<1000;i++) {fkngmelter();}
+        }
+
+        else if (strcmp(reqtextbuffer, "9") == 0) {
+            int i;
+            for (i=0;i<200;i++) {mtrfkngatombomb();}
+        }
+
+        else if (strcmp(reqtextbuffer, "10") == 0) {
+            int i;
+            for (i=0;i<1000;i++) {
+                squaryshape();
+            }
+        }
+
+        else if (strcmp(reqtextbuffer, "11") == 0) {
+            int i;
+            for (i=0;i<10000;i++) {
+                predictablemelter();
+            }
         }
 
         else if (strcmp(reqtextbuffer, "Lulu") == 0) {
