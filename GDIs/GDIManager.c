@@ -1,3 +1,25 @@
+/*
+WARNING: This software is intended strictly for research and educational purposes only.
+
+Created by ElektroWindows. No AI generated code has been used in the code; AI tools and agents were
+used exclusively used for debugging support.
+
+The program is capable of rendering GDI-based visual effects, displaying system messages,
+and executing commands in a controlled and experimental execution environment (Like in cybersecurity labs or VM)
+
+TL;TR {
+    What this software doesn't:
+        Delete or touch your files;
+        Touch boot settings;
+        Makes your computer unbootable;
+        Freaky things that real malware do;
+
+    What this software does:
+        Create GDI visual fx;
+        Command execution;
+        Display custom messages;
+*/
+
 // compile 4 windows: cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
 // devi compilare dalla shell di sviluppo x64 di vscommunity
 
