@@ -42,7 +42,7 @@ So I will create 2 files. 1 with english comments and the other with original co
 #endif
 #define _WIN32_WINNT 0x0600
 #define WINVER 0x0600
-// Fine falg per Windows
+// Fine flag per Windows
 
 #include <windows.h>
 #include <math.h>
@@ -401,15 +401,15 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshape();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
-        else if (GetTickCount64() - elapsed < 15000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 14000) {pixelate();}
         else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshape();}
         else if (GetTickCount64() - elapsed < 23000) {pixelate();}
         else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
-        else if (GetTickCount64() - elapsed < 30000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 36000) {pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {tunnel_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 43000) {mtrfkngatombomb();squaryshape();}
-        else if (GetTickCount64() - elapsed < 52000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 44000) {pixelate();}
         else if (GetTickCount64() - elapsed < 63000) {squarefx_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 65000) {circleshake_run();pixelate();}
         else if (GetTickCount64() - elapsed < 69000) {tunnel_run();ltunnel_run();}
@@ -514,16 +514,12 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "10") == 0) {
             int i;
-            for (i=0;i<1000;i++) {
-                squaryshape();
-            }
+            for (i=0;i<1000;i++) {squaryshape();}
         }
 
         else if (strcmp(reqtextbuffer, "11") == 0) {
             int i;
-            for (i=0;i<4000;i++) {
-                predictablemelter();
-            }
+            for (i=0;i<4000;i++) {predictablemelter();}
         }
 
         else if (strcmp(reqtextbuffer, "Lulu") == 0) {
