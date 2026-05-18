@@ -1,23 +1,35 @@
 /*
+{:-)} ---> Introduction <--- {(-:}
+
 WARNING: This software is intended strictly for research and educational purposes only.
-
-Created by ElektroWindows. No AI generated code has been used in the code; AI tools and agents were
+Created by ElektroWindows. No AI generated code has been used for this project; AI tools and agents were
 used exclusively used for debugging support.
-
 The program is capable of rendering GDI-based visual effects, displaying system messages,
-and executing commands in a controlled and experimental execution environment (Like in cybersecurity labs or VM)
+and executing commands in a controlled and experimental environment (Like cybersecurity labs or VM)
 
 TL;TR {
-    What this software doesn't:
+    What this software DOESN'T:
         Delete or touch your files;
         Touch boot settings;
         Makes your computer unbootable;
         Freaky things that real malware do;
 
-    What this software does:
+    What this software DOES:
         Create GDI visual fx;
         Command execution;
         Display custom messages;
+}
+
+WHY THIS PROJECT?
+I just wanted to know how create various effects in Windows Operating system,
+so I decided to write this project. Obviusly for learning and educational purpose only.
+
+WHY ONLY ONE FILE?
+I decided to keep the project simple. Every function in the same file. I think it looks clean
+and very readable. In this project everything is commented but in italian.
+So I will create 2 files. 1 with english comments and the other with original comments (the original one).
+
+{:-)} ---> End Introduction <--- {(-:}
 */
 
 // compile 4 windows: cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
@@ -261,7 +273,7 @@ void predictablemelter() {
     static int counter = 0;
     counter = counter + 1;
 
-    if (counter >= w) {counter = 0;}
+    if (counter >= w) {counter = 0;} // resetta il counter se supera lo schermo in larghezza
 
     BitBlt(hdc, counter, 5, 5, h, hdc, counter, 0, SRCINVERT);
     ReleaseDC(NULL, hdc);
