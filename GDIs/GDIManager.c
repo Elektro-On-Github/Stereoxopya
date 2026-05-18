@@ -366,6 +366,7 @@ void cleandwm() {
     Sleep(20000);
 }
 
+// non usare GetTickCount() perchè usa cifre a 32 bit, quindi dopo 49 dayz circa va in overflow 
 void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs')
     int w = GetSystemMetrics(SM_CXSCREEN) / 2; // piglio la meta' per ottenere il centro
     int h = GetSystemMetrics(SM_CYSCREEN) / 2; // idem qui
