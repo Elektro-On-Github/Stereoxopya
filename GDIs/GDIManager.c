@@ -47,10 +47,13 @@ So I will create 2 files. 1 with english comments and the other with original co
 // Fine flag per Windows
 
 #include <windows.h>
+#include <mmsystem.h> // legacy multimedia 4 windows
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+
+#pragma comment(lib, "winmm.lib") // dice al compiler "adda sta lib (winmm.lib)"
 
 /*
 BitBlt usage:
@@ -367,6 +370,43 @@ void startfx() {
     mtrfkngatombomb();
 }
 
+void squarewave_sfx() {
+    // settingz (poi in caso li gestisco ad incrementazione o decrementazione per fare dei bei sfx)
+    int SR = 44100;
+    int FREQ = 30;
+    int DURATION = 5;
+
+    HWAVEOUT h; // puntatore interno windows per il device audio
+    // config audio:
+    // wave_format_pcm = audio bello raw il wav style
+    // 1 = 1 channel
+    // SR = 44100hz (campioni per secz)
+    // SR*2 = 88200hz ()
+    // 2 = 16bit x sample
+    // 16 bit depth
+    // 0 = no xtra settingz
+    WAVEFORMATEX w = {WAVE_FORMAT_PCM, 1, SR, SR * 2, 2, 16, 0}; // le settingz stanno su w 
+    // &w = setting audio messe sopra; &h handle di windows
+    waveOutOpen(&h, WAVE_MAPPER, &w, 0, 0, CALLBACK_NULL); // lascia scegliere a windows il migliore
+
+    int n = SR * DURATION; // numero totale di campioni
+    short buf [SR * DURATION] // buffer audio; ogni elemento = sample @ 16bit
+    double ph = 0, step = (double)FREQ / SR; // ph = phase; step = di qunto avanza la fase di ogni sample
+
+    // ciclo su tutti i sample
+    for (int i=0;i<n;i++) {
+        buf[i] = (ph < 0.5) ? 32760 : -32760; // crea buffer
+    }
+
+    WAVEHDR hdr = {0}; // senda audio a windows
+    hdr.lpData = (LPSTR)buf; // punta al buffer audio
+    hdr.dwBufferLength = sizeof(buf); // prendi la lungezza del buffer in bytes
+    waveOutPrepareHeader(h, &hdr, sizeof(hdr)); // prepara buffer per windows
+    waveOutWrite(h, &hdr, sizeof(hdr)); // manda audio alla scheda audio
+    while (!(hdr.dwFlags & WHDR_DONE)) Sleep(10); // loopa ntil the end
+    waveOutClose(h); // chiudi dev audio
+}
+
 void msgbox() {
     srand(time(NULL)); // inizializza un seme per rand, metti ogni volta che usi rand() per avere numeri piu' entropici e meno prevedibili
     // [x][y]
@@ -448,7 +488,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
 
 void wrongchoose() {
     ULONGLONG elapsed = GetTickCount64();
-    MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"elektro.exe", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
+    MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"elektro.exeunasinewave", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
     MessageBoxW(NULL, L"3͘_̝͙̲̏ͪ̌̇̓̚͞L̸̢̰̙̖̣ͪ̌̋ͮ͊̎̄̂͞3̪̪7̨̧͍̩̤̪ͨ͆̿ͪ́ͨ_̖̼̞̭̳͔̽͗̽͌̀̆́̚T̨̫͇̭͔͓̬̪̙̯̐ͧ̏̾̃͌͞͞R̷̡̤͍̬̗͇̻̖͕͈ͧ͑́̐͒̓̒ͯ͌̀͑ͧ̆̆̾͌̈͘̕̚̚͜͡ͅͅ0̶̨̜̯͉͎̞͈̘͙̺͖͍̆̇̎͑ͦ̍̓̀ͨ̑̑͌́̑̆͘͠͡W̝̲̥̪̦͔͇̻̼̞̫̮͖̐͛̆ͥ͌̉͆̐̏̑́ͮ͝͡͡4̵̴̧̢̧̤̝͙̝̘̰͉͙̃̄̎́̊̚͢S̸̨̢͇̯̯͍̗̟̺̤͖̯͕̹̟̯͎̗͔͇ͫ̋ͮͥͤ̆ͦ̑̽̇̒̌̕͡͝͞H̺̩̠̖̑͊̀̓̄ͣͦͅ3̩̍̇R̸̶̨̡̛̟͎̼̤̩̭̫͈͚͖̼̖̬̯̤̗̠̻͔̋ͭͥ̿͛̐̌̃͐̂̉ͨͥ̀̆͘͟͜͢͡͞͡͝3̵̸̸̨̧̛̪͖̦̮̱͚̠ͧ̉̀͌͂̀̈́͜ͅ", L"LULU.EXE", MB_OK | MB_ICONERROR); // idem qui, però l'ultima volta non è andato il testo unicode
     while(1) {
         if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();mtrfkngatombomb();}
