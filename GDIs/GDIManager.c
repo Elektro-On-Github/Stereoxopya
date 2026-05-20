@@ -346,7 +346,7 @@ void idlefx() {
 void checkconn() {
     system("curl -s http://192.168.122.1:80/yesimok");
     printf(" --- yes im ok ---\n");
-    Sleep(20);
+    Sleep(20000);
     // system("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r");
 }
 
