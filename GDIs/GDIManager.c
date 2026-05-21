@@ -34,7 +34,7 @@ So I will create 2 files. 1 with english comments and the other with original co
 
 // compile 4 windows: 
 //cd C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\Hostx64\x64
-//cl C:\Users\user\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
+//cl %USERPROFILE%\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
 // devi compilare dalla shell di sviluppo x64 di vscommunity
 
 // Inizio flag per Windows
@@ -373,7 +373,7 @@ void startfx() {
 void squarewave_sfx() {
     // settingz (poi in caso li gestisco ad incrementazione o decrementazione per fare dei bei sfx)
     int SR = 44100;
-    int FREQ = 30;
+    static int FREQ = 20; // progressive freq
     int DURATION = 5;
 
     HWAVEOUT h; // puntatore interno windows per il device audio
@@ -390,7 +390,12 @@ void squarewave_sfx() {
     waveOutOpen(&h, WAVE_MAPPER, &w, 0, 0, CALLBACK_NULL); // lascia scegliere a windows il migliore
 
     int n = SR * DURATION; // numero totale di campioni
-    short buf [SR * DURATION] // buffer audio; ogni elemento = sample @ 16bit
+
+    // short *buf significa che ritornerà roba piccola (short) di 2 byte, come il range 32k to -32k
+    // malloc (mem alloc) aska mem e mette tutto nell'heap
+    // sizeof(short) ritorna la dimesione in byte di short
+    // malloc(n * sizeof(short)) = aska mem per n elementi
+    short *buf = (short*)malloc(n * sizeof(short)); // buffer audio; ogni elemento = sample @ 16bit
     double ph = 0, step = (double)FREQ / SR; // ph = phase; step = di qunto avanza la fase di ogni sample
 
     // ciclo su tutti i sample
@@ -400,10 +405,11 @@ void squarewave_sfx() {
 
     WAVEHDR hdr = {0}; // senda audio a windows
     hdr.lpData = (LPSTR)buf; // punta al buffer audio
-    hdr.dwBufferLength = sizeof(buf); // prendi la lungezza del buffer in bytes
+    hdr.dwBufferLength = sizeof(short); // prendi la lungezza del buffer in bytes
     waveOutPrepareHeader(h, &hdr, sizeof(hdr)); // prepara buffer per windows
     waveOutWrite(h, &hdr, sizeof(hdr)); // manda audio alla scheda audio
     while (!(hdr.dwFlags & WHDR_DONE)) Sleep(10); // loopa ntil the end
+    free(buf);
     waveOutClose(h); // chiudi dev audio
 }
 
@@ -601,6 +607,10 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "CHOOSE") == 0) {
             wrongchoose();
+        }
+
+        else if (strcmp(reqtextbuffer, "sfx") == 0) {
+            squarewave_sfx();
         }
 
         else if (strcmp(reqtextbuffer, "IDLE") == 0) {
