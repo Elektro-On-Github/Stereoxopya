@@ -373,8 +373,8 @@ void startfx() {
 void squarewave_sfx() {
     // settingz (poi in caso li gestisco ad incrementazione o decrementazione per fare dei bei sfx)
     int SR = 44100;
-    static int FREQ = 20; // progressive freq
-    int DURATION = 5;
+    int FREQ = 1 + FREQ; // progressive freq
+    int DURATION = 1;
 
     HWAVEOUT h; // puntatore interno windows per il device audio
     // config audio:
@@ -400,12 +400,14 @@ void squarewave_sfx() {
 
     // ciclo su tutti i sample
     for (int i=0;i<n;i++) {
+        ph += step; // avanza la fase
+        if (ph >= 1) ph -= 1; // resetta la fase quando supera 1 (ciclo completo)
         buf[i] = (ph < 0.5) ? 32760 : -32760; // crea buffer
     }
 
     WAVEHDR hdr = {0}; // senda audio a windows
     hdr.lpData = (LPSTR)buf; // punta al buffer audio
-    hdr.dwBufferLength = sizeof(short); // prendi la lungezza del buffer in bytes
+    hdr.dwBufferLength = n * sizeof(short); // prendi la lungezza del buffer in bytes
     waveOutPrepareHeader(h, &hdr, sizeof(hdr)); // prepara buffer per windows
     waveOutWrite(h, &hdr, sizeof(hdr)); // manda audio alla scheda audio
     while (!(hdr.dwFlags & WHDR_DONE)) Sleep(10); // loopa ntil the end
