@@ -33,8 +33,8 @@ So I will create 2 files. 1 with english comments and the other with original co
 */
 
 // compile 4 windows: 
-//cd C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\Hostx64\x64
-//cl %USERPROFILE%\Desktop\GDIManager.c /O2 /link gdi32.lib user32.lib
+//cd C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\ur_version\bin\Hostx64\x64
+//cl %USERPROFILE%\Desktop\test.c /O2 /link gdi32.lib user32.lib
 // devi compilare dalla shell di sviluppo x64 di vscommunity
 
 // Inizio flag per Windows
