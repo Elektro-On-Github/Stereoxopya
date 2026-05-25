@@ -395,7 +395,7 @@ void squarewave_sfx(int FREQ, int DURATION) {
     // sizeof(short) ritorna la dimesione in byte di short
     // malloc(n * sizeof(short)) = aska mem per n elementi
     short *buf = (short*)malloc(n * sizeof(short)); // buffer audio; ogni elemento = sample @ 16bit
-    double ph = 0, step = (double)FREQ / SR; // ph = phase; step = di qunto avanza la fase di ogni sample
+    double ph = 0, step = (double)FREQ / SR; // ph = phase; step = di quanto avanza la fase di ogni sample
 
     // ciclo su tutti i sample
     for (int i=0;i<n;i++) {
@@ -498,14 +498,14 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
     while (1) {
         if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);} // 17 = num di char del text
-        // squarewave_sfx(); settare thread qui
+        whitenoise_sfx(1);
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshapez();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 14000) {pixelate();}
         else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshapez();}
-        else if (GetTickCount64() - elapsed < 23000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 23000) {pixelate();squarewave_sfx(40, 1)}
         else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {pixelate();}
         else if (GetTickCount64() - elapsed < 36000) {tunnel_run();mtrfkngatombomb();}
