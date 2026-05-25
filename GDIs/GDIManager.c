@@ -414,6 +414,7 @@ void squarewave_sfx(int FREQ, int DURATION) {
     waveOutClose(h); // chiudi dev audio
 }
 
+// pensiero random: mi è venuta in mente l'idea di fare un video su yt che riguarda il reverse engineering di questo programma 
 void whitenoise_sfx(int DURATION) {
     int SR = 44100;
     HWAVEOUT h;
@@ -497,6 +498,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
     while (1) {
         if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);} // 17 = num di char del text
+        // squarewave_sfx(); settare thread qui
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshapez();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
@@ -505,8 +507,8 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshapez();}
         else if (GetTickCount64() - elapsed < 23000) {pixelate();}
         else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
-        else if (GetTickCount64() - elapsed < 36000) {pixelate();}
-        else if (GetTickCount64() - elapsed < 33000) {tunnel_run();mtrfkngatombomb();}
+        else if (GetTickCount64() - elapsed < 33000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 36000) {tunnel_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 43000) {mtrfkngatombomb();squaryshapez();}
         else if (GetTickCount64() - elapsed < 44000) {mtrfkngatombomb();pixelate();}
         else if (GetTickCount64() - elapsed < 63000) {squarefx_run();mtrfkngatombomb();}
@@ -527,11 +529,6 @@ void wrongchoose() {
         else if (GetTickCount64() - elapsed < 80000) {fkngmelter();mtrfkngatombomb();}
         else {break;}
     }
-}
-
-void soundfx1() {
-    int i;
-    for (i=0;i<400;i++) {squarewave_sfx((rand() % 1000) + 4400 , 1);}
 }
 
 int main() {
@@ -638,14 +635,6 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "CHOOSE") == 0) {
             wrongchoose();
-        }
-
-        else if (strcmp(reqtextbuffer, "sfx1") == 0) {
-            soundfx1();
-        }
-        
-        else if (strcmp(reqtextbuffer, "whitenoize") == 0) {
-            whitenoise_sfx(20);
         }
 
         else if (strcmp(reqtextbuffer, "IDLE") == 0) {
