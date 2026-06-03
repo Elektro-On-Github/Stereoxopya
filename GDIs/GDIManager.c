@@ -357,14 +357,12 @@ void startfx() {
     h = GetSystemMetrics(SM_CYSCREEN);
 
     //yeahhh starta a bestia!
-    whitenoise_sfx();
     heightglitch_run();
     widthglitch_run();
     tunnel_run();
     circleshake_run();
     ltunnel_run();
     squarefx_run();
-    squarewave_sfx(100, 1); // pompa 100hz belli quadrati negli sppikerrzz
     pixelate();
     lulu();
     fkngmelter();
@@ -503,14 +501,14 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
     ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
     while (1) {
         if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);} // 17 = num di char del text
-        whitenoise_sfx(1);
+        else if (GetTickCount64() - elapsed < 5000) {whitenoise_sfx(2);}
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshapez();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 14000) {pixelate();}
         else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshapez();}
-        else if (GetTickCount64() - elapsed < 23000) {pixelate();squarewave_sfx(40, 1)}
+        else if (GetTickCount64() - elapsed < 23000) {pixelate();squarewave_sfx(40, 1);}
         else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
         else if (GetTickCount64() - elapsed < 33000) {pixelate();}
         else if (GetTickCount64() - elapsed < 36000) {tunnel_run();mtrfkngatombomb();}
