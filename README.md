@@ -29,7 +29,7 @@ Its purpose is to demonstrate concepts related to:
 - defensive cybersecurity understanding
 
 
-# 🧠 Why This Project Exists
+# Why This Project Exists
 
 Modern cybersecurity is not only about writing secure code.
 
@@ -51,7 +51,7 @@ build a deeper understanding of modern systems.
 You cannot properly defend systems without understanding how they are made, right?.
 
 
-# 🖥️ Recommended Environment
+# Recommended Environment
 
 Is recommended to run inside:
 - VirtualBox
@@ -68,8 +68,11 @@ Using virtual machines is optional because:
 - This program create only visual fx
 - You can control behaviors
 
+# How compile the code?
+<code>cl "path/to/stereoxopya.c" /O2 /link gdi32.lib user32.lib</code><br>
+*Obv you need Visual Studio with C compiler!*
 
-# 👤 Author
+# Author
 
 Created by **ElektroWindows**
 
