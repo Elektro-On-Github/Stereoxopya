@@ -114,21 +114,6 @@ Yeah, only C
 
 ---
 
-# 🧪 Topics Explored
-
-Stereoxopya explores concepts such as:
-- graphical payload rendering
-- screen effects
-- Windows behavior
-- process interaction
-- command execution
-- API abuse detection patterns
-- antivirus behavior
-- sandbox analysis behavior
-- Windows graphical subsystem internals
-
----
-
 # 🖥️ Recommended Environment
 
 Is recommended to run inside:
@@ -146,22 +131,6 @@ Using virtual machines is optional because:
 - This program create only visual fx
 - You can control behaviors
 
----
-
-# 📂 Project Structure
-
-The project intentionally keeps most functionality inside a single source file.
-
-This design choice improves:
-- readability
-- educational clarity
-- debugging simplicity
-- execution flow understanding
-
-For learning-oriented projects, reducing unnecessary abstraction often makes reverse engineering and analysis easier.
-
----
-
 # 🚀 Compilation
 
 //////////////
@@ -178,22 +147,6 @@ Or compile with:
 The original source contains comments written in Italian.
 An English-commented version may be released separately.
 
----
-
-# 🧬 Defensive Security Perspective
-
-Projects like this help demonstrate:
-- why modern operating systems implement security boundaries
-- how behavioral detection works
-- why endpoint protection matters
-- how suspicious API patterns can trigger antivirus
-- why running unknown binaries is dangerous
-
-Understanding offensive techniques is part of building stronger defensive knowledge.
-
-Cybersecurity without understanding attack surfaces is like trying to engineer a vault without knowing how locks are picked.
-
----
 
 # 👤 Author
 
@@ -210,7 +163,7 @@ Focused on:
 
 # ⭐ Final Note
 
-Operating systems are incredibly complex pieces of engineering.
+Operating systems are incredibly complex.
 
 Sometimes the best way to understand them is:
 - experimenting safely
