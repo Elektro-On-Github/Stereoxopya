@@ -1,15 +1,3 @@
-# Stereoxopya
-### Windows Internals & GDI Research Project
-
-> Experimental software created for educational purposes to study:
-> - Windows graphical subsystems
-> - WinAPI behavior
-> - antivirus detection logic
-> - user-mode system interaction
-> - visual payload mechanics in controlled environments
-
----
-
 # 📌 Overview
 
 **Stereoxopya** is a Windows research project designed to explore how low-level graphical effects, WinAPI calls, and process behavior interact inside the Windows operating system.
