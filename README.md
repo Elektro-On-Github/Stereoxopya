@@ -1,16 +1,7 @@
-# 📌 Overview
+This is a program written in C by me, i wrote stereoxopya only for see how good i am in Windows Internals and C programming.<br>
+In this project i used very common and simple libraries like: windows.h, mmsystem.h, math.h, string.h, stdio.h and time.h <br>
+I highly recommend to compile the code with MSVC (because all the windows libs are installed by default) <br>
 
-**Stereoxopya** is a Windows research project designed to explore how low-level graphical effects, WinAPI calls, and process behavior interact inside the Windows operating system.
-
-The project focuses on understanding:
-- how graphical payloads are made
-- how Windows reacts to aggressive API usage
-- how user-space applications interact with system resources
-- why malware analysis and defensive security matter (for real)
-
-This project is intentionally built as a **safe educational environment** for experimentation and reverse engineering practice.
-
----
 
 # ⚠️ Important Disclaimer
 
@@ -37,7 +28,6 @@ Its purpose is to demonstrate concepts related to:
 - behavioral analysis
 - defensive cybersecurity understanding
 
----
 
 # 🧠 Why This Project Exists
 
@@ -45,7 +35,6 @@ Modern cybersecurity is not only about writing secure code.
 
 It is also about understanding:
 - how malicious software behaves
-- how operating systems react
 - how antivirus engines analyze processes
 - how suspicious patterns are detected
 - how graphical payloads historically worked
@@ -59,48 +48,8 @@ Studying these concepts helps:
 
 build a deeper understanding of modern systems.
 
-You cannot properly defend systems without understanding how they are made.
+You cannot properly defend systems without understanding how they are made, right?.
 
----
-
-# 🔒 Educational Goal
-
-Stereoxopya was created to encourage:
-- curiosity
-- operating system research
-- safe experimentation
-- responsible reverse engineering
-- defensive security learning
-
-This project does **NOT** romanticize malware culture.
-
-There is a major difference between:
-- educational research
-- and creating harmful software for real-world abuse
-
-The objective here is technical understanding, not disruption.
-
----
-
-# 🛠️ Technologies & APIs Used
-
-The project mainly relies on:
-
-## Windows APIs
-- `WinAPI`
-- `User32`
-- `GDI32`
-
-## Graphics
-- GDI rendering
-- screen manipulation
-- bitmap operations
-- desktop drawing experiments
-
-## Programming Languages
-Yeah, only C
-
----
 
 # 🖥️ Recommended Environment
 
@@ -108,9 +57,9 @@ Is recommended to run inside:
 - VirtualBox
 - Vmware
 - Hyper-V
-- isolated testing environments
+- isolated environments
 
-Tested systems:
+I tested on:
 - Windows 10
 - Windows 11
 
@@ -119,16 +68,6 @@ Using virtual machines is optional because:
 - This program create only visual fx
 - You can control behaviors
 
-# 🚀 Compilation
-
-//////////////
-
-Or compile with:
-- Visual Studio
-- MSVC
-- MinGW
-
----
 
 # 👤 Author
 
@@ -142,5 +81,3 @@ Focused on:
 - defensive security research
 
   PS: The original source contains comments written in Italian. An English-commented version may be released separately.
-
----
