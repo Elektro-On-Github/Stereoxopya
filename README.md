@@ -142,12 +142,6 @@ Or compile with:
 
 ---
 
-# 📖 Notes
-
-The original source contains comments written in Italian.
-An English-commented version may be released separately.
-
-
 # 👤 Author
 
 Created by **ElektroWindows**
@@ -159,17 +153,6 @@ Focused on:
 - graphical subsystem experimentation
 - defensive security research
 
+  PS: The original source contains comments written in Italian. An English-commented version may be released separately.
+
 ---
-
-# ⭐ Final Note
-
-Operating systems are incredibly complex.
-
-Sometimes the best way to understand them is:
-- experimenting safely
-- analyzing behavior
-- studying APIs directly
-- observing system reactions
-- learning through controlled testing
-
-Stereoxopya exists as a small educational project built around that philosophy.
